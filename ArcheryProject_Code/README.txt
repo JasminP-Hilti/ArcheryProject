@@ -1,0 +1,1 @@
+Hier soll sich der gesamte Code befinden, mit Unterordnern und klarer Gliederung!
