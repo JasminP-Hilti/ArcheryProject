@@ -1,1 +1,1 @@
-Hier sollen sämtliche Notizen, Planungen etc. abgelegt werden. Dazu gehören auch das UML, Klassendiagramm, unsere Skizzen und Organigramm
+Hier sollen sämtliche Notizen, Planungen etc. abgelegt werden. Dazu gehören auch das UML, Klassendiagramm, unsere Skizzen und Organigramm.
