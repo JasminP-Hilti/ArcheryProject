@@ -1,0 +1,1 @@
+Das ist unser Projekt für die Berufsschule und wird innerhalb der nächsten Wochen/Monate bearbeitet werden. Ziel ist es eine Mobile First App zu machen um Bogenparkours abzubilden und die Punktezahl die dort erreicht wurde. 
