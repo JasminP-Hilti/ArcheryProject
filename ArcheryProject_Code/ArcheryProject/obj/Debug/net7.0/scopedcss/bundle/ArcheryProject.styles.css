@@ -1,0 +1,147 @@
+/* _content/ArcheryProject/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-hnhlvkbpw0] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-hnhlvkbpw0] {
+  color: #0077cc;
+}
+
+.btn-primary[b-hnhlvkbpw0] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-hnhlvkbpw0], .nav-pills .show > .nav-link[b-hnhlvkbpw0] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-hnhlvkbpw0] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-hnhlvkbpw0] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-hnhlvkbpw0] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-hnhlvkbpw0] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-hnhlvkbpw0] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+/* _content/ArcheryProject/Views/Shared/_Layout_Admin.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-ex0xn57b8e] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-ex0xn57b8e] {
+  color: #0077cc;
+}
+
+.btn-primary[b-ex0xn57b8e] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-ex0xn57b8e], .nav-pills .show > .nav-link[b-ex0xn57b8e] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-ex0xn57b8e] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-ex0xn57b8e] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-ex0xn57b8e] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-ex0xn57b8e] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-ex0xn57b8e] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+/* _content/ArcheryProject/Views/Shared/_Layout_Player.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-fnz56c32cb] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-fnz56c32cb] {
+  color: #0077cc;
+}
+
+.btn-primary[b-fnz56c32cb] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-fnz56c32cb], .nav-pills .show > .nav-link[b-fnz56c32cb] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-fnz56c32cb] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-fnz56c32cb] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-fnz56c32cb] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-fnz56c32cb] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-fnz56c32cb] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
