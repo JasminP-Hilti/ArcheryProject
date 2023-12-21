@@ -4,6 +4,12 @@
 .container{
     border-radius: 15px;
 }
+.login-container {
+    color: white;
+    padding: 3rem;
+    background-image: url("/img/luca-unsplash.jpg");
+  /*  blur?*/
+}
 
 .btn-incative {
     background-color: transparent;
@@ -12,6 +18,9 @@
 
 .bg-seashell {
     background-color: #FFF3EB;
+}
+.bg-white {
+    background-color: white;
 }
 
 .bg-night {
@@ -27,15 +36,24 @@
     background-color: #60712F;
 }
 
-/*test*/
+#tableList > table{
 
-/*.btn-primary{
+    border-style: dashed;
+    border-color: green; 
+    border-width: 1px;
+}
+
+/*test*/
+.btn-primary{
     background-color: darkseagreen;
 }
-.btn-primary ::before {
+.btn-seashell {
+    background-color: #FFF3EB;
+    color: black;
+}
+/*.btn-primary ::before {
     border-color: darkseagreen;
 }*/
-
 
 /*https://www.youtube.com/watch?v=KHF6nysy0-c&ab_channel=RayVillalobos*/
 #homeIndexCarousel .carousel-item img {
