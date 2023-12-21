@@ -1,0 +1,1 @@
+Scaffold-DbContext "server=localhost;port=3306;database=artaimus;user=root;password="MySql.EntityFrameworkCore -force
