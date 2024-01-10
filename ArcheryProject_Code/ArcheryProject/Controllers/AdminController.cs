@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
 
+
 namespace ArcheryProject.Controllers
 {
     public class AdminController : Controller
@@ -20,9 +21,10 @@ namespace ArcheryProject.Controllers
             this.dbCtx = dbCtx;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(PlayerModel player)
         {
-            return View();
+
+            return View(player);
         }
 
         public IActionResult Play()
