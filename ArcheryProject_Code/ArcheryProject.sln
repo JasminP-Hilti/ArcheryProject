@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArcheryProject", "ArcheryProject\ArcheryProject.csproj", "{B485181A-373A-4FF2-BD2A-2CDAFEC3161F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "artaimusDBlib", "artaimusDBlib\artaimusDBlib.csproj", "{0D1F3DF2-AF95-4E0F-9843-3CCA33B24783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "artaimusDBlib", "artaimusDBlib\artaimusDBlib.csproj", "{0D1F3DF2-AF95-4E0F-9843-3CCA33B24783}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
