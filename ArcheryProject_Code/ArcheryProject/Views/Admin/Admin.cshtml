@@ -5,24 +5,43 @@
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
 }
 <h1>@ViewData["Title"]</h1>
+<table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid #000; padding: 8px;">ID</th>
+            <th style="border: 1px solid #000; padding: 8px;">Name</th>
+            <th style="border: 1px solid #000; padding: 8px;">Location</th>
+            <th style="border: 1px solid #000; padding: 8px;">CountAnimals</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tmpPar in Model)
+        {
+            <tr>
+                <td>@tmpPar.Id</td>
+                <td>@tmpPar.Name</td>
+                <td>@tmpPar.Location</td>
+                <td>@tmpPar.CountAnimals</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-@foreach(var tmpPar in Model)
-{
-    <div>@tmpPar.Name</div>
-}
-
+<br />
+<br />
+<br />
+<br />
+<br />
 
 <div class="container">
-    <form asp-controller="Admin" asp-action="readDatabase_Click" method="post">
-    <div class="form-outline mb-4">
-        <label class="form-label" for="parcourId">Id</label>
-        <input type="password" id="parcourId" class="form-control" />
-    </div>
-    <div class="form-outline mb-4">
-        <label class="form-label" for="targets">Targets</label>
-        <input type="password" id="targets" class="form-control" />
-    </div>
-    <button id="submitParcour" class="btn btn-primary">Submit</button>
-    </form>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="parcourId">Id</label>
+            <input type="password" id="parcourId" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="targets">Targets</label>
+            <input type="password" id="targets" class="form-control" />
+        </div>
+        <button id="submitParcour" class="btn btn-primary">Submit</button>
 </div>
 
