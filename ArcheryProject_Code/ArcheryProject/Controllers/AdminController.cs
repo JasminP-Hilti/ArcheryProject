@@ -12,6 +12,7 @@ namespace ArcheryProject.Controllers
         private readonly ILogger<AdminController> _logger;
 
         private ArtaimusContext dbCtx;
+        public List<PlayerModel> tmpPlayers = new List<PlayerModel>();
 
         public AdminController(ILogger<AdminController> logger, ArtaimusContext dbCtx)
         {
@@ -27,6 +28,7 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Play()
         {
+            //Get logged in Player from DB
             return View();
         }
 
@@ -68,6 +70,15 @@ namespace ArcheryProject.Controllers
                 await dbCtx.SaveChangesAsync();
             }
             return RedirectToAction("Admin");
+        }
+        [HttpPost]
+        public IActionResult AddPlayerToPlay(PlayerModel player)
+        {
+            if (ModelState.IsValid)
+            {
+                tmpPlayers.Add(player);
+            }
+            return View(tmpPlayers);
         }
 
     }
