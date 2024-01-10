@@ -1,6 +1,8 @@
 ﻿using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
 
 namespace ArcheryProject.Controllers
@@ -34,11 +36,11 @@ namespace ArcheryProject.Controllers
         }
         public IActionResult Admin()
         {
-            List<ParcourModel> tmpMOdels = new List<ParcourModel>();
+            List<ParcourModel> tmpModels = new List<ParcourModel>();
 
             foreach(var tmpPar in dbCtx.Parcours)
             {
-                tmpMOdels.Add(new ParcourModel
+                tmpModels.Add(new ParcourModel
                 {
                     Id = tmpPar.Id,
                     Name = tmpPar.Name,
@@ -47,7 +49,7 @@ namespace ArcheryProject.Controllers
                 });
             }
 
-            return View(tmpMOdels);
+            return View(tmpModels);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -55,10 +57,18 @@ namespace ArcheryProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public class AdminModel
+        
+        [HttpPost]
+        public async Task<IActionResult> AddParcour(Parcour parcour)
         {
-            public string? Button { get; set; }
+            if (ModelState.IsValid)
+            {
+                // Logik zum Speichern der Daten in der Datenbank
+                dbCtx.Parcours.Add(parcour);
+                await dbCtx.SaveChangesAsync();
+            }
+            return RedirectToAction("Admin");
         }
+
     }
 }
