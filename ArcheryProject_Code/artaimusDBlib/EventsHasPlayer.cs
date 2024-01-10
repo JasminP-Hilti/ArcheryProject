@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ArcheryProject;
+namespace artaimusDBlib;
 
 public partial class EventsHasPlayer
 {
