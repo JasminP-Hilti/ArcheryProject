@@ -34,14 +34,22 @@
 <br />
 
 <div class="container">
+    <h2>Add new Parcour: </h2>
+    <form asp-controller="Admin" asp-action="AddParcour" method="post">
+        <!-- Ihre Formularelemente hier -->
         <div class="form-outline mb-4">
-            <label class="form-label" for="parcourId">Id</label>
-            <input type="password" id="parcourId" class="form-control" />
+            <label class="form-label" for="Name">Name</label>
+            <input type="text" id="Name" name="Name" class="form-control" />
         </div>
         <div class="form-outline mb-4">
-            <label class="form-label" for="targets">Targets</label>
-            <input type="password" id="targets" class="form-control" />
+            <label class="form-label" for="Location">Location</label>
+            <input type="text" id="Location" name="Location" class="form-control" />
         </div>
-        <button id="submitParcour" class="btn btn-primary">Submit</button>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="CountAnimals">Count of Animals</label>
+            <input type="number" id="CountAnimals" name="CountAnimals" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 
