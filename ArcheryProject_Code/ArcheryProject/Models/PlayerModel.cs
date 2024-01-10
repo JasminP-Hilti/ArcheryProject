@@ -1,4 +1,6 @@
-﻿namespace ArcheryProject.Models
+using artaimusDBlib;
+
+namespace ArcheryProject.Models
 {
     public class PlayerModel
     {
@@ -13,5 +15,11 @@
         public ulong Admin { get; set; }
 
         public int? LoginsId { get; set; }
+
+        public string? GetGreetingMessage()
+            {
+                string tmpText = $"Hello {this.FirstName} {this.LastName}!" ; 
+                return $"{tmpText}";
+            }
     }
 }

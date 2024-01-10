@@ -1,9 +1,11 @@
 ﻿using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Esf;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
+
 
 namespace ArcheryProject.Controllers
 {
@@ -21,9 +23,10 @@ namespace ArcheryProject.Controllers
             this.dbCtx = dbCtx;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(PlayerModel player)
         {
-            return View();
+
+            return View(player);
         }
 
         public IActionResult Play()
@@ -34,13 +37,74 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Stats()
         {
-            return View();
+
+            List<StatisticModel> tmpModels = new List<StatisticModel>();
+
+            var playersList = dbCtx.Players.ToList();
+            var parcourList = dbCtx.Parcours.ToList();
+            var eventList= dbCtx.Events.ToList();
+
+            foreach (var eventPlayer in dbCtx.EventsHasPlayers)
+            {
+                var player = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId /*&& p.Id ==2*/);
+                var eventInfo = eventList.FirstOrDefault(e => e.Id == eventPlayer.EventsId);
+
+
+
+                if (player != null && eventInfo != null)
+                {
+                    var parcour = parcourList.FirstOrDefault(p => p.Id == eventInfo.ParcoursId);
+
+                    if(parcour != null)
+                    { 
+                    tmpModels.Add(new StatisticModel
+                    {
+                        FirstName = player.FirstName,
+                        LastName = player.LastName,
+                        Nickname = player.Nickname,
+                        PlayersId = eventPlayer.PlayersId,
+                        EventsId = eventPlayer.EventsId,
+                        PointsTotal = eventPlayer.PointsTotal,
+                        ParcoursName = parcour.Name,
+                        ParcoursId = parcour.Id
+                                             
+                    });
+                    }
+                }
+            }
+
+            return View(tmpModels);
+
+            
+
+            //List<EventHasPlayerModel> tmpModels = new List<EventHasPlayerModel>();
+
+            //foreach (var tmpPoints in dbCtx.EventsHasPlayers)
+            //{
+            //    foreach (var player in dbCtx.Players)
+            //    {
+
+            //    }
+
+            //    tmpModels.Add(new EventHasPlayerModel
+            //    {
+            //        PlayersId = tmpPoints.PlayersId,
+            //        EventsId = tmpPoints.EventsId,
+            //        PointsTotal = tmpPoints.PointsTotal
+
+            //    });
+
+            //}
+
+            //return View(tmpModels);
+
+
         }
         public IActionResult Admin()
         {
             List<ParcourModel> tmpModels = new List<ParcourModel>();
 
-            foreach(var tmpPar in dbCtx.Parcours)
+            foreach (var tmpPar in dbCtx.Parcours)
             {
                 tmpModels.Add(new ParcourModel
                 {
