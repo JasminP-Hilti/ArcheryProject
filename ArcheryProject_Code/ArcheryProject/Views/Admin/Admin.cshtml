@@ -1,11 +1,19 @@
-﻿@{
+﻿@model List<ParcourModel>
+
+@{
     ViewData["Title"] = "Parcour Manager";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
 }
 <h1>@ViewData["Title"]</h1>
 
+@foreach(var tmpPar in Model)
+{
+    <div>@tmpPar.Name</div>
+}
+
 
 <div class="container">
+    <form asp-controller="Admin" asp-action="readDatabase_Click" method="post">
     <div class="form-outline mb-4">
         <label class="form-label" for="parcourId">Id</label>
         <input type="password" id="parcourId" class="form-control" />
@@ -15,4 +23,6 @@
         <input type="password" id="targets" class="form-control" />
     </div>
     <button id="submitParcour" class="btn btn-primary">Submit</button>
+    </form>
 </div>
+
