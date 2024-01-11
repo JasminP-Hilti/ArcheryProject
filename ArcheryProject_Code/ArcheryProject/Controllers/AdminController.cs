@@ -64,13 +64,14 @@ namespace ArcheryProject.Controllers
                         EventsId = eventPlayer.EventsId,
                         PointsTotal = eventPlayer.PointsTotal,
                         ParcoursName = parcour.Name,
-                        ParcoursId = parcour.Id
+                        ParcoursId = parcour.Id,
+                        ParcoursCountAnimals = parcour.CountAnimals
                                              
                     });
                     }
                 }
             }
-
+          
             return View(tmpModels);
 
             
