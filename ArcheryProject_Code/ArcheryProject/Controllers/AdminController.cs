@@ -117,6 +117,24 @@ namespace ArcheryProject.Controllers
 
             return View(tmpModels);
         }
+        public IActionResult Admin2()
+        {
+            List<PlayerModel> tmpModels = new List<PlayerModel>();
+
+            foreach (var tmpPar in dbCtx.Players)
+            {
+                tmpModels.Add(new PlayerModel
+                {
+                    Id = tmpPar.Id,
+                    FirstName = tmpPar.FirstName,
+                    LastName = tmpPar.LastName,
+                    Nickname = tmpPar.Nickname,
+                    Admin = tmpPar.Admin,
+                });
+            }
+
+            return View(tmpModels);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
