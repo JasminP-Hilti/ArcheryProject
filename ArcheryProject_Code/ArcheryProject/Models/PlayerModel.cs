@@ -1,10 +1,9 @@
-﻿using artaimusDBlib;
+using artaimusDBlib;
 
 namespace ArcheryProject.Models
 {
     public class PlayerModel
     {
-
         public int Id { get; set; }
 
         public string FirstName { get; set; } = null!;
@@ -17,13 +16,10 @@ namespace ArcheryProject.Models
 
         public int? LoginsId { get; set; }
 
-       
         public string? GetGreetingMessage()
             {
                 string tmpText = $"Hello {this.FirstName} {this.LastName}!" ; 
                 return $"{tmpText}";
             }
-       
-
     }
 }

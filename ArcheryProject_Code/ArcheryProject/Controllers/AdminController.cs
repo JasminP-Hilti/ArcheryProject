@@ -14,6 +14,7 @@ namespace ArcheryProject.Controllers
         private readonly ILogger<AdminController> _logger;
 
         private ArtaimusContext dbCtx;
+        public List<PlayerModel> tmpPlayers = new List<PlayerModel>();
 
         public AdminController(ILogger<AdminController> logger, ArtaimusContext dbCtx)
         {
@@ -30,6 +31,7 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Play()
         {
+            //Get logged in Player from DB
             return View();
         }
 
@@ -116,6 +118,24 @@ namespace ArcheryProject.Controllers
 
             return View(tmpModels);
         }
+        public IActionResult Admin2()
+        {
+            List<PlayerModel> tmpModels = new List<PlayerModel>();
+
+            foreach (var tmpPar in dbCtx.Players)
+            {
+                tmpModels.Add(new PlayerModel
+                {
+                    Id = tmpPar.Id,
+                    FirstName = tmpPar.FirstName,
+                    LastName = tmpPar.LastName,
+                    Nickname = tmpPar.Nickname,
+                    Admin = tmpPar.Admin,
+                });
+            }
+
+            return View(tmpModels);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -133,6 +153,15 @@ namespace ArcheryProject.Controllers
                 await dbCtx.SaveChangesAsync();
             }
             return RedirectToAction("Admin");
+        }
+        [HttpPost]
+        public IActionResult AddPlayerToPlay(PlayerModel player)
+        {
+            if (ModelState.IsValid)
+            {
+                tmpPlayers.Add(player);
+            }
+            return View(tmpPlayers);
         }
 
     }
