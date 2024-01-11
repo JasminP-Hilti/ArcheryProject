@@ -1,6 +1,7 @@
 ﻿using ArcheryProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using artaimusDBlib;
+using System;
 //Home
 //Login
 
@@ -22,40 +23,39 @@ namespace ArcheryProject.Controllers
 
         public IActionResult LoginOrRegister()
         { 
-            //if (ModelState.IsValid)
-            //{
-            //    School? tmpDBSchool = dbCtx.Schools.Where(x => x.Id == school.ID).FirstOrDefault();
-
-            //    if (tmpDBSchool == null)
-            //    {
-            //        tmpDBSchool = new School { Id = school.ID.Value };
-            //        dbCtx.Schools.Add(tmpDBSchool);
-            //    }
-
-            //    tmpDBSchool.Name = school.Name;
-            //    dbCtx.SaveChanges();
-            //}
             return View();
-
         }
 
+        //Login
+        ////////////////////////////////////////////////////
 
         [HttpPost]
         public IActionResult Login(LoginOrRegisterModel LoginData)
         {
-            var username = LoginData.loginName;
+            var usernameOrEmail = LoginData.loginNameOrMail;
             var password = LoginData.loginPassword;
             bool loginSuccess = false;
             bool isAdmin = false;
 
-            if (username != null || password != null) {
-                loginSuccess = LoginSuccess(username, password);
-                isAdmin = IsAdmin(username);
+            if (usernameOrEmail != null || password != null) {
+                if (usernameOrEmail.Contains('@'))
+                {
+                    loginSuccess = LoginSuccessByEmail(usernameOrEmail, password);
+                }
+                else
+                {
+                    loginSuccess = LoginSuccessByUsername(usernameOrEmail, password);
+                }
+
+
+                
+                isAdmin = IsAdmin(usernameOrEmail);
             }
 
            
-            if (loginSuccess== true) {
-                PlayerModel player = GetPlayer(username);
+            if (loginSuccess == true) {
+                PlayerModel player = GetPlayer(usernameOrEmail);
+                
                 if(isAdmin == true)
                 {
                     return RedirectToAction("Index", "Admin", player); //"Action", "Controller"
@@ -64,7 +64,6 @@ namespace ArcheryProject.Controllers
                 {
                     return RedirectToAction("Index", "Player", player); //"Action", "Controller"
                 }
-                
             }
             else
             {
@@ -74,7 +73,7 @@ namespace ArcheryProject.Controllers
         }
 
         [HttpGet]
-        public bool LoginSuccess(string? username, string? password) {
+        public bool LoginSuccessByUsername(string? username, string? password) {
             bool loginSuccess = false;
 
                 //Get Player from DB by username
@@ -94,16 +93,43 @@ namespace ArcheryProject.Controllers
                         }
                     }
                 }
-            
             return loginSuccess;
         }
 
         [HttpGet]
-        public bool IsAdmin(string? username)
+        public bool LoginSuccessByEmail(string? email, string? password)
+        {
+            bool loginSuccess = false;
+
+            //Get Login from DB by Email
+            Login? tmpDBLogin = dbCtx.Logins.Where(x => x.Email == email).FirstOrDefault();
+
+            if (tmpDBLogin != null)
+            {
+                //Get Player from Login by Loginid
+                Player? tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
+                if (tmpDBLogin != null)
+                {
+                    //check if Password is correct
+                    if (tmpDBLogin.Password == password)
+                    {
+                        // Passwords match => login successful
+                        loginSuccess = true;
+                    }
+                }
+            }
+            return loginSuccess;
+        }
+
+        [HttpGet]
+        public bool IsAdmin(string? usernameOrEmail)
         {
             bool isAdmin = false;
+            //get Info By Username
+            if (usernameOrEmail.Contains('@') == false)
+            {
                 //Get Player from DB by username
-                Player? tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == username).FirstOrDefault();
+                Player? tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == usernameOrEmail).FirstOrDefault();
 
                 if (tmpDBPlayer != null)
                 {
@@ -112,14 +138,44 @@ namespace ArcheryProject.Controllers
                         isAdmin = true;
                     }
                 }
+            }
+            
+            //get info by email
+            else if(usernameOrEmail.Contains('@') == true)
+            {
+                Login? tmpDBLogin = dbCtx.Logins.Where(x => x.Email == usernameOrEmail).FirstOrDefault();
+
+                if (tmpDBLogin != null)
+                {
+                    Player? tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
+                    if (tmpDBPlayer.Admin == 1)
+                    {
+                        isAdmin = true;
+                    }
+                }
+            }
             return isAdmin;
         }
 
         [HttpGet]
-        public PlayerModel GetPlayer(string? username)
+        public PlayerModel GetPlayer(string? usernameOrEmail)
         {
             PlayerModel player = null;
-            Player? tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == username).FirstOrDefault();
+            Player? tmpDBPlayer = null;
+            if (usernameOrEmail.Contains('@') == true)
+            {
+                //get Player over login id
+                Login? tmpDBLogin = dbCtx.Logins.Where(x => x.Email == usernameOrEmail).FirstOrDefault();
+                if (tmpDBLogin != null)
+                {
+                    tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
+                }
+            }
+            else if (usernameOrEmail.Contains('@') == false)
+            {
+                tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == usernameOrEmail).FirstOrDefault();
+            }
+           
             if (tmpDBPlayer != null)
             {
                 player = new PlayerModel
@@ -131,16 +187,55 @@ namespace ArcheryProject.Controllers
                     Admin = tmpDBPlayer.Admin,
                     LoginsId = tmpDBPlayer.LoginsId
                 };
-
             }
            
             return player;
         }
 
+        //Register
+        ////////////////////////////////////////////////////
 
         [HttpPost]
-        public IActionResult Register()
+        public IActionResult Register(LoginOrRegisterModel register)
         {
+            //missing: check password repeatition 
+
+            Player? tmpDBPlayer = null;
+            tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == register.registerUsername).FirstOrDefault();
+
+            Login? tmpDBLogin = null;
+            tmpDBLogin = dbCtx.Logins.Where(x => x.Email == register.registerEmail).FirstOrDefault();
+            if(tmpDBLogin != null)
+            {
+                tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
+            }
+   
+
+            if (tmpDBPlayer == null)
+            {
+                tmpDBLogin = new Login
+                {
+                    Id = 0,
+                    Email = register.registerEmail,
+                    Password = register.registerPassword
+                };
+                dbCtx.Logins.Add(tmpDBLogin);
+                tmpDBPlayer = new Player { 
+                    Id = 0,
+                    FirstName = register.RegisterFirstName,
+                    LastName = register.registerLastName,
+                    Nickname = register.registerUsername,
+                    Admin = 0,
+                    LoginsId = tmpDBLogin.Id
+                };
+                dbCtx.Players.Add(tmpDBPlayer);
+            }
+            dbCtx.SaveChanges();
+
+
+            return RedirectToAction("GetPersons");
+
+
             return View(new LoginOrRegisterModel());
         }
 

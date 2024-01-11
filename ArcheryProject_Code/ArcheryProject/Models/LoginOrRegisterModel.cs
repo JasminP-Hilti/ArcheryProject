@@ -8,9 +8,9 @@ namespace ArcheryProject.Models
         //Login 
         ////////////////////////////////////////////////////
 
-        [Display(Name = "Username:")]
+        [Display(Name = "Username / Email:")]
         [Required(ErrorMessage = "Required")]
-        public string? loginName { get; set; }
+        public string? loginNameOrMail { get; set; }
 
         [Display(Name = "Password:")]
         [Required(ErrorMessage = "Required")]
