@@ -26,6 +26,17 @@ namespace ArcheryProject.Controllers
             return View();
         }
 
+        public IActionResult RegisterLanding()
+        {
+            return View();
+        }
+
+        public ActionResult RegisterFailedModal()
+        {
+            return PartialView("_RegisterFailedModal");
+        }
+
+
         //Login
         ////////////////////////////////////////////////////
 
@@ -198,51 +209,112 @@ namespace ArcheryProject.Controllers
         [HttpPost]
         public IActionResult Register(LoginOrRegisterModel register)
         {
-            //missing: check password repeatition 
-
-            Player? tmpDBPlayer = null;
-            tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == register.registerUsername).FirstOrDefault();
-
-            Login? tmpDBLogin = null;
-            tmpDBLogin = dbCtx.Logins.Where(x => x.Email == register.registerEmail).FirstOrDefault();
-            if(tmpDBLogin != null)
+            if (registerdataIsValid(register) == true)
             {
-                tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
-            }
+
+                Player? tmpDBPlayer = null;
+                tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == register.registerUsername).FirstOrDefault();
+
+                Login? tmpDBLogin = null;
+                tmpDBLogin = dbCtx.Logins.Where(x => x.Email == register.registerEmail).FirstOrDefault();
+                if(tmpDBLogin != null)
+                {
+                    tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
+                }
    
 
-            if (tmpDBPlayer == null)
-            {
-                tmpDBLogin = new Login
+                if (tmpDBPlayer == null)
                 {
-                    Id = 0,
-                    Email = register.registerEmail,
-                    Password = register.registerPassword
-                };
-                dbCtx.Logins.Add(tmpDBLogin);
-                tmpDBPlayer = new Player { 
-                    Id = 0,
-                    FirstName = register.RegisterFirstName,
-                    LastName = register.registerLastName,
-                    Nickname = register.registerUsername,
-                    Admin = 0,
-                    LoginsId = tmpDBLogin.Id
-                };
-                dbCtx.Players.Add(tmpDBPlayer);
+                    tmpDBLogin = new Login
+                    {
+                        Id = 0,
+                        Email = register.registerEmail,
+                        Password = register.registerPassword
+                    };
+                    dbCtx.Logins.Add(tmpDBLogin);
+                    dbCtx.SaveChanges();
+                    tmpDBPlayer = new Player { 
+                        Id = 0,
+                        FirstName = register.RegisterFirstName,
+                        LastName = register.registerLastName,
+                        Nickname = register.registerUsername,
+                        Admin = 0,
+                        LoginsId = tmpDBLogin.Id
+                    };
+                    dbCtx.Players.Add(tmpDBPlayer);
+                    dbCtx.SaveChanges();
+                }
+                return RedirectToAction("RegisterLanding");
             }
-            dbCtx.SaveChanges();
-
-
-            return RedirectToAction("GetPersons");
-
-
-            return View(new LoginOrRegisterModel());
+            return RedirectToAction("RegisterFailedModal");
         }
 
+        [HttpGet]
+        public bool registerdataIsValid(LoginOrRegisterModel register)
+        {
+            bool dataIsValid = false;
+            /*
+             * Firstname & Lastname: no numbers
+               Password = PasswordRepeat && longer than 6 char && doesnt contain @ && symbols
+               username is available / unique
+             */
+            var firstname = register.RegisterFirstName;
+            var lastname = register.registerLastName;
+            var username = register.registerUsername;
+            var email = register.registerEmail;
+            var password = register.registerPassword;
+            var passwordRepeat = register.registerRepeatPassword;
 
+            bool passwordIsValid = false;
+            //Password = PasswordRepeat && longer than 6 char && doesnt contain @ && symbols
+            if (password == passwordRepeat)
+            {
+                if(password != null)
+                {
+                    if(password.Any(c => char.IsDigit(c) == true && char.IsSymbol(c) == true && c != '@') && password.Length >= 6)
+                    {
+                        passwordIsValid = true;
+                    }    
+                }
+            }
+            //username is available / unique
+            bool usernameIsAvailable = UsernameIsAvailable(username);
+
+            bool namesAreValid = false;
+            if(firstname != null && lastname != null) {
+                if (firstname.Any(char.IsDigit) == false &&
+              lastname.Any(char.IsDigit) == false)
+                {
+                    namesAreValid = true;
+                }
+            }
+
+            if (namesAreValid ==true &&
+               passwordIsValid == true &&
+               email.Contains('@') &&
+               usernameIsAvailable == true) 
+            { 
+                dataIsValid = true;
+            }
+
+            return dataIsValid;
+
+        }
+
+        [HttpGet]
+        public bool UsernameIsAvailable(string username)
+        {
+            bool usernameIsAvailable = false;
+            if (username != null)
+            {
+                Player? tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == username).FirstOrDefault();
+
+                if (tmpDBPlayer == null)
+                {
+                    usernameIsAvailable = true;
+                }
+            }
+            return usernameIsAvailable;
+        } 
     }
-  
-
-
-    
 }
