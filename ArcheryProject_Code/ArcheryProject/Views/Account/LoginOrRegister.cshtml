@@ -5,28 +5,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
   
 }
-<!-- Bootstrap CSS and JS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- JS -->
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
 
-@if (ViewBag.OpenModal != null && ViewBag.OpenModal)
+<!-- registerfailed -->
+@if (ViewBag.OpenModalRegisterFailed != null && ViewBag.OpenModalRegisterFailed)
 {
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="registerFailed" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal content goes here -->
-                @Html.Partial("_MyModal")
+                @Html.Partial("_RegisterFailedModal")
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#registerFailed').modal('show');
+            // Close the modal when the button is clicked
+            $('#closeModalBtn').click(function () {
+                $('#registerFailed').modal('hide');
+            });
+        });
+    </script>
+}
+<!-- loginfailed -->
+@if (ViewBag.OpenModalLoginFailed != null && ViewBag.OpenModalLoginFailed)
+{
+    <div id="loginFailed" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal content goes here -->
+                @Html.Partial("_LoginFailedModal")
             </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function () {
-            // Trigger the modal when the page loads
-            $('#myModal').modal('show');
+            $('#loginFailed').modal('show');
+            // Close the modal when the button is clicked
+            $('#closeModalBtn').click(function () {
+                $('#loginFailed').modal('hide');
+            });
         });
     </script>
 }
