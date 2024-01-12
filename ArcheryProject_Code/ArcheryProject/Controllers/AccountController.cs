@@ -21,8 +21,14 @@ namespace ArcheryProject.Controllers
             this.dbCtx = dbCtx;
         }
 
-        public IActionResult LoginOrRegister()
-        { 
+        public IActionResult LoginOrRegister(bool registermodal = false)
+        {
+            // Retrieve the value from TempData
+            bool? openModal = TempData["OpenModal"] as bool?;
+
+            // Set the ViewBag or any other mechanism to pass the value to the view
+            ViewBag.OpenModal = openModal ?? false;
+
             return View();
         }
 
@@ -31,10 +37,16 @@ namespace ArcheryProject.Controllers
             return View();
         }
 
-        public ActionResult RegisterFailedModal()
-        {
-            return PartialView("_RegisterFailedModal");
-        }
+        //public ActionResult MyModal()
+        //{
+        //    // Your logic here
+        //    return PartialView("_MyModal");
+        //}
+        //public ActionResult RegisterFailedModal()
+        //{
+
+        //    return PartialView("_RegisterFailedModal");
+        //}
 
 
         //Login
@@ -246,8 +258,10 @@ namespace ArcheryProject.Controllers
                 }
                 return RedirectToAction("RegisterLanding");
             }
-            return RedirectToAction("RegisterFailedModal");
+            TempData["OpenModal"] = true;
+            return RedirectToAction("LoginOrRegister");
         }
+     
 
         [HttpGet]
         public bool registerdataIsValid(LoginOrRegisterModel register)
