@@ -66,13 +66,14 @@ namespace ArcheryProject.Controllers
                         EventsId = eventPlayer.EventsId,
                         PointsTotal = eventPlayer.PointsTotal,
                         ParcoursName = parcour.Name,
-                        ParcoursId = parcour.Id
+                        ParcoursId = parcour.Id,
+                        ParcoursCountAnimals = parcour.CountAnimals
                                              
                     });
                     }
                 }
             }
-
+          
             return View(tmpModels);
 
             
@@ -112,6 +113,24 @@ namespace ArcheryProject.Controllers
                     Name = tmpPar.Name,
                     Location = tmpPar.Location,
                     CountAnimals = tmpPar.CountAnimals
+                });
+            }
+
+            return View(tmpModels);
+        }
+        public IActionResult Admin2()
+        {
+            List<PlayerModel> tmpModels = new List<PlayerModel>();
+
+            foreach (var tmpPar in dbCtx.Players)
+            {
+                tmpModels.Add(new PlayerModel
+                {
+                    Id = tmpPar.Id,
+                    FirstName = tmpPar.FirstName,
+                    LastName = tmpPar.LastName,
+                    Nickname = tmpPar.Nickname,
+                    Admin = tmpPar.Admin,
                 });
             }
 

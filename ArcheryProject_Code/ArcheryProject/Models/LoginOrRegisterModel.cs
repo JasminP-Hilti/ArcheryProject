@@ -4,13 +4,12 @@ namespace ArcheryProject.Models
 {
     public class LoginOrRegisterModel
     {
-
         //Login 
         ////////////////////////////////////////////////////
 
-        [Display(Name = "Username:")]
+        [Display(Name = "Username / Email:")]
         [Required(ErrorMessage = "Required")]
-        public string? loginName { get; set; }
+        public string? loginNameOrMail { get; set; }
 
         [Display(Name = "Password:")]
         [Required(ErrorMessage = "Required")]
@@ -42,8 +41,6 @@ namespace ArcheryProject.Models
         [Display(Name = "Repeat Password:")]
         [Required(ErrorMessage = "Required")]
         public string? registerRepeatPassword { get; set; }
-
-
     }
 }
 

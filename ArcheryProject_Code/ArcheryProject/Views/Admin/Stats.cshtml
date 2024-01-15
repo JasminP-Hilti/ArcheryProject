@@ -1,5 +1,7 @@
 ﻿@model List<StatisticModel>
 
+
+
 @{
     ViewData["Title"] = "Stats";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
@@ -23,8 +25,8 @@
             {
                 <tr>
                     <td>@tmpPoints.FirstName
-                    @tmpPoints.LastName</td>
-                    <td>@tmpPoints.PointsTotal</td>
+                        @tmpPoints.LastName</td>
+                    <td>@Math.Round(tmpPoints.PointsTotal / (double) tmpPoints.ParcoursCountAnimals, 2)</td>
                     <td>@tmpPoints.ParcoursName</td>
                     <td>@tmpPoints.ParcoursId</td>
                     <td>@tmpPoints.PointsTotal</td>
@@ -34,6 +36,70 @@
         </tbody>
     </table>
 
+     <canvas id="lineChart" width="400" height="200"></canvas>
 
 </div>
+
+
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+ *@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    var averagePointsData = @Html.Raw(Json.Serialize(Model.Select(p => Math.Round(p.PointsTotal / (double)p.ParcoursCountAnimals, 2))));
+    var ctx = document.getElementById('lineChart').getContext('2d');
+
+
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array.from({ length: averagePointsData.length }, (_, i) => i + 1), 
+            datasets: [{
+                label: 'Average Points',
+                data: averagePointsData,
+                borderColor: 'rgba(158, 208, 255, 1)',  
+               // backgroundColor: "rgba((158, 208, 255, 1)",
+                borderWidth: 2,
+                
+                fill: false
+            }]
+        },
+        options: {
+          
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 1)',
+                        // suggestedMin: 1,
+                        // suggestedMax: 2
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 1)'
+
+
+                    }
+                }
+            },
+
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'rgba(255, 255, 255, 1)'
+                    }
+                }
+                    
+            }
+        }
+    });
+</script>
+
+
 

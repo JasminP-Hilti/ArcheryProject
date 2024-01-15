@@ -44,8 +44,23 @@
                             </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                             @*get value of matchType to determine tablecolumns*@
                         }
+=======
+                          @*   @if() //get value of matchType to determine tablecolumns
+                            {
+                            foreach (var tmpPlayer in Model)
+                            {
+                                <tr>
+                                    <td>@tmpPlayer.Nickname</td>
+                                </tr>
+                            }else
+                            {
+                                
+                            }
+                        } *@
+>>>>>>> e3ba80c76e568df35a8cb079a7d0e2c96a110c7c
                         </tbody>
                     </table>
                     <!-- Button trigger modal -->
