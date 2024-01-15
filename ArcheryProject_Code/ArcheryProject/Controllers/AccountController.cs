@@ -34,6 +34,8 @@ namespace ArcheryProject.Controllers
             return View();
         }
 
+
+
         public IActionResult RegisterLanding()
         {
             return View();
@@ -240,6 +242,7 @@ namespace ArcheryProject.Controllers
 
                 if (tmpDBPlayer == null)
                 {
+
                     tmpDBLogin = new Login
                     {
                         Id = 0,
