@@ -6,40 +6,41 @@
     ViewData["Title"] = "Stats";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
+
 
 <div class="container">
-
-    <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
+    <h1 style="color:white">@ViewData["Title"]</h1>
+    <table class="col-12" style="border-collapse: collapse; background-color: #f0f0f0; border-radius: 15px;">
         <thead>
-            <tr>
-                <th style="border: 1px solid #000; padding: 8px;">name</th>               
-                <th style="border: 1px solid #000; padding: 8px;">average points</th>
-                <th style="border: 1px solid #000; padding: 8px;">parcour</th>
-                <th style="border: 1px solid #000; padding: 8px;">ParcourId</th>
-                <th style="border: 1px solid #000; padding: 8px;">points total</th>
+            <tr style="border-bottom: 1px solid black; text-align:center; font-size: 1.2rem;">
+                <th>name</th>               
+                <th>average points</th>
+                <th>parcour</th>
+                <th>ParcourId</th>
+                <th>points total</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var tmpPoints in Model)
             {
                 <tr>
-                    <td>@tmpPoints.FirstName
+                    <td style="padding-left:2rem;">
+                        @tmpPoints.FirstName
                         @tmpPoints.LastName</td>
-                    <td>@Math.Round(tmpPoints.PointsTotal / (double) tmpPoints.ParcoursCountAnimals, 2)</td>
-                    <td>@tmpPoints.ParcoursName</td>
-                    <td>@tmpPoints.ParcoursId</td>
-                    <td>@tmpPoints.PointsTotal</td>
+                    <td style="text-align:center;">@Math.Round(tmpPoints.PointsTotal / (double) tmpPoints.ParcoursCountAnimals, 2)</td>
+                    <td style="padding-left:2rem;">@tmpPoints.ParcoursName</td>
+                    <td style="text-align:center;">@tmpPoints.ParcoursId</td>
+                    <td style="text-align:center;">@tmpPoints.PointsTotal</td>
                     
                 </tr>
             }
         </tbody>
     </table>
 
-     <canvas id="lineChart" width="400" height="200"></canvas>
-
 </div>
-
+<div class="container pt-5" >
+    <canvas id="lineChart" ></canvas>
+</div>
 
 @* <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
  *@
