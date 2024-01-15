@@ -1,0 +1,22 @@
+﻿@* @model LoginOrRegisterModel
+
+@{
+    ViewData["Title"] = "registerFailed";
+    
+  
+}
+ *@
+ <div class="" style="padding: 2rem; text-align:center;">
+    <h1 style="color: red;"> Login failed!</h1>
+    <p>Please try again.</p>
+
+    <button id="closeModalBtn" class=" mybtn btn-active" data-dismiss="modal"> Ok </button>
+
+ </div>
+
+<script>
+    $(document).ready(function () {
+        // Trigger the modal when the page loads
+        $('#loginFailed').modal('show');
+    });
+</script>

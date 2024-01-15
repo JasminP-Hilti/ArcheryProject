@@ -4,7 +4,6 @@ namespace ArcheryProject.Models
 {
     public class LoginOrRegisterModel
     {
-
         //Login 
         ////////////////////////////////////////////////////
 
@@ -42,8 +41,6 @@ namespace ArcheryProject.Models
         [Display(Name = "Repeat Password:")]
         [Required(ErrorMessage = "Required")]
         public string? registerRepeatPassword { get; set; }
-
-
     }
 }
 
