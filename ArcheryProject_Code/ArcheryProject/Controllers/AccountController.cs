@@ -220,6 +220,7 @@ namespace ArcheryProject.Controllers
                     Password = register.registerPassword
                 };
                 dbCtx.Logins.Add(tmpDBLogin);
+                dbCtx.SaveChanges();
                 tmpDBPlayer = new Player { 
                     Id = 0,
                     FirstName = register.RegisterFirstName,
@@ -229,6 +230,7 @@ namespace ArcheryProject.Controllers
                     LoginsId = tmpDBLogin.Id
                 };
                 dbCtx.Players.Add(tmpDBPlayer);
+                dbCtx.SaveChanges();
             }
             dbCtx.SaveChanges();
 
