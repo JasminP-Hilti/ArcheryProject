@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create new Match";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    string matchType = Request["matchType"];
 }
 
 <h1 style="text-align: center;">@ViewData["Title"]</h1>
@@ -13,7 +14,7 @@
                 <form id="createMatch" class="p-3">
                 <div class="form-outline mb-4">
                     <label class="form-label col-3" for="type"><b>Type:</b> </label>
-                    <select id="matchType">
+                    <select name="matchType" id="matchType" asp-controller="Admin" asp-action="getMatchType" method="get">
                         <option>3 Pfeil Wertung</option>
                         <option>2 Pfeil Wertung</option>
                     </select>
@@ -43,17 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if() //get value of matchType to determine tablecolumns
-                            {
-                            foreach (var tmpPlayer in Model)
-                            {
-                                <tr>
-                                    <td>@tmpPlayer.Nickname</td>
-                                </tr>
-                            }else
-                            {
-                                
-                            }
+                            @*get value of matchType to determine tablecolumns*@
                         }
                         </tbody>
                     </table>

@@ -145,5 +145,23 @@ namespace ArcheryProject.Controllers
             return View(tmpPlayers);
         }
 
+        [HttpPost]
+        public IActionResult PrintPlayerList(string matchType)
+        {
+            if(matchType == "3 Pfeil Wertung")            
+            {
+                foreach (var tmpPlayer in tmpPlayers)
+                {
+                    tmpPlayers.Add(new PlayerModel
+                    {
+                        Nickname = tmpPlayer.Nickname
+                    });
+                }
+            }else
+            {     
+
+            }
+                return View(matchType);
+        }
     }
 }
