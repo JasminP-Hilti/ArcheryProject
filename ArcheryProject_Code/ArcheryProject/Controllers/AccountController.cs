@@ -34,6 +34,8 @@ namespace ArcheryProject.Controllers
             return View();
         }
 
+
+
         public IActionResult RegisterLanding()
         {
             return View();
