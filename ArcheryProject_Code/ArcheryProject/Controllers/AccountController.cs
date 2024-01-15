@@ -242,6 +242,7 @@ namespace ArcheryProject.Controllers
 
                 if (tmpDBPlayer == null)
                 {
+
                     tmpDBLogin = new Login
                     {
                         Id = 0,
