@@ -15,10 +15,10 @@
 
           
             <tr style="border-bottom: 1px solid black; text-align:center; font-size: 1.2rem;">
-                <th>name</th>               
-                <th>average points</th>
+                <th>name</th>
                 <th>parcour</th>
-                <th>ParcourId</th>
+                <th>average points</th>
+               @*  <th>ParcourId</th> *@
                 <th>points total</th>
 
             </tr>
@@ -30,10 +30,11 @@
                     <td style="padding-left:2rem;">
                         @tmpPoints.FirstName
                         @tmpPoints.LastName</td>
+                    <td style="padding-left:2rem;">@tmpPoints.ParcoursName</td>
 
                     <td style="text-align:center;">@Math.Round(tmpPoints.PointsTotal / (double) tmpPoints.ParcoursCountAnimals, 2)</td>
-                    <td style="padding-left:2rem;">@tmpPoints.ParcoursName</td>
-                    <td style="text-align:center;">@tmpPoints.ParcoursId</td>
+                   
+                    @* <td style="text-align:center;">@tmpPoints.ParcoursId</td> *@
                     <td style="text-align:center;">@tmpPoints.PointsTotal</td>
 
                     
@@ -45,7 +46,7 @@
 
 
 <div class="container pt-5" >
-    <h2> Leistungskurve</h2>
+    <h2 style="color:white"> Leistungskurve</h2>
     <canvas id="lineChart" ></canvas>
 </div>
 
