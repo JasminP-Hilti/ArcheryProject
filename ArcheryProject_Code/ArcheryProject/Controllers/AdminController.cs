@@ -35,7 +35,7 @@ namespace ArcheryProject.Controllers
             return View();
         }
 
-        public IActionResult Stats()
+        public IActionResult Stats(PlayerModel player)
         {
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();
@@ -46,12 +46,12 @@ namespace ArcheryProject.Controllers
 
             foreach (var eventPlayer in dbCtx.EventsHasPlayers)
             {
-                var player = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId /*&& p.Id ==2*/);
+                var tmpplayer = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId && eventPlayer.PlayersId == player.Id);
                 var eventInfo = eventList.FirstOrDefault(e => e.Id == eventPlayer.EventsId);
 
 
 
-                if (player != null && eventInfo != null)
+                if (tmpplayer != null && eventInfo != null)
                 {
                     var parcour = parcourList.FirstOrDefault(p => p.Id == eventInfo.ParcoursId);
 
@@ -59,9 +59,9 @@ namespace ArcheryProject.Controllers
                     { 
                     tmpModels.Add(new StatisticModel
                     {
-                        FirstName = player.FirstName,
-                        LastName = player.LastName,
-                        Nickname = player.Nickname,
+                        FirstName = tmpplayer.FirstName,
+                        LastName = tmpplayer.LastName,
+                        Nickname = tmpplayer.Nickname,
                         PlayersId = eventPlayer.PlayersId,
                         EventsId = eventPlayer.EventsId,
                         PointsTotal = eventPlayer.PointsTotal,
