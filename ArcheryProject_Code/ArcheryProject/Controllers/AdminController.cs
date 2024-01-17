@@ -32,7 +32,18 @@ namespace ArcheryProject.Controllers
         public IActionResult Play()
         {
             //Get logged in Player from DB
+<<<<<<< HEAD
             return View();
+=======
+            return View(player); ;
+        }
+
+        [HttpPost]
+        public IActionResult Play(EventModel eventModel)
+        {
+            //Get logged in Player from DB
+            return View(eventModel);
+>>>>>>> 0dd5f15a1f6d599c2611c19c51e828dbcade644a
         }
 
 
@@ -151,5 +162,23 @@ namespace ArcheryProject.Controllers
             return View(tmpPlayers);
         }
 
+        [HttpPost]
+        public IActionResult PrintPlayerList(string matchType)
+        {
+            if(matchType == "3 Pfeil Wertung")            
+            {
+                foreach (var tmpPlayer in tmpPlayers)
+                {
+                    tmpPlayers.Add(new PlayerModel
+                    {
+                        Nickname = tmpPlayer.Nickname
+                    });
+                }
+            }else
+            {     
+
+            }
+                return View(matchType);
+        }
     }
 }
