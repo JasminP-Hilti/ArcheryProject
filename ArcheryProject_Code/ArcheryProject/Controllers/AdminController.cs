@@ -32,7 +32,14 @@ namespace ArcheryProject.Controllers
         public IActionResult Play()
         {
             //Get logged in Player from DB
-            return View();
+            return View(new EventModel());
+        }
+
+        [HttpPost]
+        public IActionResult Play(EventModel eventModel)
+        {
+            //Get logged in Player from DB
+            return View(eventModel);
         }
 
         public IActionResult Stats()
