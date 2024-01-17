@@ -25,14 +25,13 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Index(PlayerModel player)
         {
-
             return View(player);
         }
 
-        public IActionResult Play()
+        public IActionResult Play(PlayerModel player)
         {
             //Get logged in Player from DB
-            return View(new EventModel());
+            return View(player); ;
         }
 
         [HttpPost]
