@@ -100,6 +100,10 @@ namespace ArcheryProject.Controllers
            
         }
 
+
+
+
+
         [HttpGet]
         public bool LoginSuccessByUsername(string? username, string? password) {
             bool loginSuccess = false;
@@ -219,6 +223,11 @@ namespace ArcheryProject.Controllers
            
             return player;
         }
+
+
+      
+
+
 
         //Register
         ////////////////////////////////////////////////////
