@@ -154,6 +154,27 @@ namespace ArcheryProject.Controllers
             return RedirectToAction("Admin");
         }
         [HttpPost]
+        public async Task<IActionResult> EditParcour(Parcour parcour)
+        {
+            if (ModelState.IsValid)
+            {
+                // Logik zum Speichern der Daten in der Datenbank
+                dbCtx.Parcours.Update(parcour);
+                await dbCtx.SaveChangesAsync();
+            }
+            return RedirectToAction("Admin");
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPlayer(Player player)
+        {
+
+                // Logik zum Speichern der Daten in der Datenbank
+                dbCtx.Players.Update(player);
+                await dbCtx.SaveChangesAsync();
+            
+            return RedirectToAction("Admin2");
+        }
+        [HttpPost]
         public IActionResult AddPlayerToPlay(PlayerModel player)
         {
             if (ModelState.IsValid)

@@ -1,4 +1,6 @@
-﻿@model List<ParcourModel>
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+@model List<ParcourModel>
 
 @{
     ViewData["Title"] = "Parcour Manager";
@@ -30,8 +32,30 @@
     </tbody>
 </table>
 </div>
-
-
+<div class="container bg-darkgreen" style="color:white; padding: 1rem;">
+    <h2>Edit existing parcour: </h2>
+    <form asp-controller="Admin" asp-action="EditParcour" method="post">
+        <!-- Ihre Formularelemente hier -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="Id">Id</label>
+            <input type="number" id="Id" name="Id" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="Name">Name</label>
+            <input type="text" id="Name" name="Name" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="Location">Location</label>
+            <input type="text" id="Location" name="Location" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="CountAnimals">Count of Animals</label>
+            <input type="number" id="CountAnimals" name="CountAnimals" class="form-control" />
+        </div>
+        <button type="submit" class="mybtn btn-active">Submit</button>
+    </form>
+</div>
+<br />
 <div class="container bg-darkgreen" style="color:white; padding: 1rem;">
     <h2 >Add new Parcour: </h2>
     <form asp-controller="Admin" asp-action="AddParcour" method="post">
