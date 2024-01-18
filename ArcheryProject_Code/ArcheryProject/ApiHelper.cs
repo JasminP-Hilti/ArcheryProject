@@ -25,6 +25,7 @@ namespace ArcheryProject
                 //tmpPlayer.Parcours = new List<artaimusDBlib.Parcour>();
                 //tmpPlayer.Events = new List<artaimusDBlib.Event> { };
 
+
                 return users[name];
                 } 
             }

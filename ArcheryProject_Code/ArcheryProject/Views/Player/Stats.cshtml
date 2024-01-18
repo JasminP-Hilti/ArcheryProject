@@ -47,8 +47,12 @@
 </div>
 
 
-<div class="container pt-5" >
+<div class="container mt-5 pt-3 bg-darkgreen">
     <h2 style="color:white"> Leistungskurve</h2>
+    <p style="color:white">
+        x-Achse: Spiele <br />
+        y-Achse: Punkte
+    </p>
     <canvas id="lineChart" ></canvas>
 </div>
 
@@ -89,14 +93,18 @@
                         color: 'rgba(255, 255, 255, 1)',
                         //suggestedMin: 1,
                         // suggestedMax: 2
+                    },
+                    grid:{
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 },
                 y: {
                     beginAtZero: true,
                     ticks: {
                         color: 'rgba(255, 255, 255, 1)'
-
-
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 }
             },
