@@ -29,6 +29,21 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
+        public IActionResult Logout()
+        {
+            var usernameOrEmail = HttpContext.Session.GetString("UsernameOrEmail");
+
+            if (usernameOrEmail != null)
+            {
+                PlayerModel player = ApiHelper.GetUser(usernameOrEmail);
+                ApiHelper.RemoveUser(player);
+
+                HttpContext.Session.Clear();
+            }
+
+            return RedirectToAction("index", "Home");
+
+        }
 
 
         public IActionResult Stats()

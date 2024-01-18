@@ -46,15 +46,26 @@ namespace ArcheryProject.Controllers
 
         }
 
+        public IActionResult Logout()
+        {
+            var usernameOrEmail = HttpContext.Session.GetString("UsernameOrEmail");
 
-        //public IActionResult Stats()
-        //{
-        //    return View();
-        //}
+            if (usernameOrEmail != null)
+            {
+                PlayerModel player = ApiHelper.GetUser(usernameOrEmail);
+                ApiHelper.RemoveUser(player);
+
+                HttpContext.Session.Clear();
+            }
+            
+            return RedirectToAction("index", "Home");
+
+        }
 
 
         public IActionResult Stats()
         {
+
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();

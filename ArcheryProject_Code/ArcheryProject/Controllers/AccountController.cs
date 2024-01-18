@@ -35,24 +35,11 @@ namespace ArcheryProject.Controllers
             return View();
         }
 
-
-
         public IActionResult RegisterLanding()
         {
             return View();
         }
-
-        //public ActionResult MyModal()
-        //{
-        //    // Your logic here
-        //    return PartialView("_MyModal");
-        //}
-        //public ActionResult RegisterFailedModal()
-        //{
-
-        //    return PartialView("_RegisterFailedModal");
-        //}
-
+      
 
         //Login
         ////////////////////////////////////////////////////
@@ -74,9 +61,7 @@ namespace ArcheryProject.Controllers
                 {
                     loginSuccess = LoginSuccessByUsername(usernameOrEmail, password);
                 }
-
-
-                
+                                
                 isAdmin = IsAdmin(usernameOrEmail);
             }
 
@@ -84,6 +69,11 @@ namespace ArcheryProject.Controllers
             if ((loginSuccess == true) && !string.IsNullOrEmpty(usernameOrEmail)) {
                 
                 PlayerModel player = GetPlayer(usernameOrEmail);
+                if (usernameOrEmail.Contains('@'))
+                {
+                    player.Email = usernameOrEmail;
+                }
+                
 
                 ApiHelper.SetUser(usernameOrEmail, player);
 
@@ -101,18 +91,13 @@ namespace ArcheryProject.Controllers
                     return RedirectToAction("Index", "Player", player); //"Action", "Controller"
                 }
 
-
             }
             else
             {
                 TempData["OpenModalLoginFailed"] = true;
                 return RedirectToAction("LoginOrRegister"); //"Action", "Controller"
             }
-           
         }
-
-
-
 
 
         [HttpGet]

@@ -15,18 +15,45 @@ namespace ArcheryProject
 
         static public PlayerModel GetUser(string name)
         {
-            if (users.ContainsKey(name))
+            if(name != null)
             {
+                if (users.ContainsKey(name))
+                {
                 PlayerModel tmpPlayer = users[name];
 
-                tmpPlayer.PlayedEvents = new List<artaimusDBlib.EventsHasPlayer> { };
-                tmpPlayer.Parcours = new List<artaimusDBlib.Parcour>();
-                tmpPlayer.Events = new List<artaimusDBlib.Event> { };
+                //tmpPlayer.PlayedEvents = new List<artaimusDBlib.EventsHasPlayer> { };
+                //tmpPlayer.Parcours = new List<artaimusDBlib.Parcour>();
+                //tmpPlayer.Events = new List<artaimusDBlib.Event> { };
 
                 return users[name];
+                } 
             }
+        
+            
 
             return null;
+        }
+
+        static public void RemoveUser(PlayerModel player)
+        {
+            //hässlich dafuq
+            if (player != null)
+            {
+                if (player.Nickname != null)
+                {
+                    if (users.ContainsKey(player.Nickname))
+                    {
+                        users.Remove(player.Nickname);
+                    }
+                }
+                if (player.Email != null)
+                {
+                    if (users.ContainsKey(player.Email))
+                    {
+                        users.Remove(player.Email);
+                    }
+                }
+            }
         }
     }
 }

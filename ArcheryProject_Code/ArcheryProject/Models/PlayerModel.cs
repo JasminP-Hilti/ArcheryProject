@@ -21,6 +21,9 @@ namespace ArcheryProject.Models
 
         public List<Parcour>? Parcours { get; set; }
 
+        public string? Email { get; set; }
+
+
         public string? GetGreetingMessage()
             {
                 string tmpText = $"Hello {this.FirstName} {this.LastName}!" ; 
