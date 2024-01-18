@@ -1,4 +1,5 @@
 ﻿using ArcheryProject.Models;
+using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,6 +16,7 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Index()
         {
+            ApiHelper.SetUser("", null);
             return View();
         }
 
