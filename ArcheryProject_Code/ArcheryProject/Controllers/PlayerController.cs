@@ -6,9 +6,8 @@ namespace ArcheryProject.Controllers
 {
     public class PlayerController : Controller
     {
-        private readonly ILogger<PlayerController> _logger;
-
         private ArtaimusContext dbCtx;
+        private readonly ILogger<PlayerController> _logger;
         public List<PlayerModel> tmpPlayers = new List<PlayerModel>();
 
         public PlayerController(ILogger<PlayerController> logger, ArtaimusContext dbCtx)
@@ -17,7 +16,6 @@ namespace ArcheryProject.Controllers
 
             this.dbCtx = dbCtx;
         }
-
         public IActionResult Index(PlayerModel player)
         {
             return View(player);
@@ -34,7 +32,9 @@ namespace ArcheryProject.Controllers
         public IActionResult Stats()
         {
 
+
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();
 
@@ -44,7 +44,9 @@ namespace ArcheryProject.Controllers
 
             foreach (var eventPlayer in dbCtx.EventsHasPlayers)
             {
+
                 var tmpplayer = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId && p.Id == player.Id);
+
                 var eventInfo = eventList.FirstOrDefault(e => e.Id == eventPlayer.EventsId);
 
 
@@ -72,12 +74,11 @@ namespace ArcheryProject.Controllers
                 }
             }
 
-            return View(tmpModels);
+            return View(tmpModels);        
 
 
 
         }
-
 
     }
 }
