@@ -32,8 +32,26 @@ namespace ArcheryProject.Controllers
         public IActionResult Play()
         {
             //Get logged in Player from DB
+<<<<<<< HEAD
             return View();
+=======
+            return View(player); ;
         }
+
+        [HttpPost]
+        public IActionResult Play(EventModel eventModel)
+        {
+            //Get logged in Player from DB
+            return View(eventModel);
+>>>>>>> 0dd5f15a1f6d599c2611c19c51e828dbcade644a
+        }
+
+
+        //public IActionResult Stats()
+        //{
+        //    return View();
+        //}
+
 
         public IActionResult Stats()
         {
@@ -42,11 +60,11 @@ namespace ArcheryProject.Controllers
 
             var playersList = dbCtx.Players.ToList();
             var parcourList = dbCtx.Parcours.ToList();
-            var eventList= dbCtx.Events.ToList();
+            var eventList = dbCtx.Events.ToList();
 
             foreach (var eventPlayer in dbCtx.EventsHasPlayers)
             {
-                var player = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId /*&& p.Id ==2*/);
+                var player = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId && p.Id == 2);
                 var eventInfo = eventList.FirstOrDefault(e => e.Id == eventPlayer.EventsId);
 
 
@@ -55,52 +73,32 @@ namespace ArcheryProject.Controllers
                 {
                     var parcour = parcourList.FirstOrDefault(p => p.Id == eventInfo.ParcoursId);
 
-                    if(parcour != null)
-                    { 
-                    tmpModels.Add(new StatisticModel
+                    if (parcour != null)
                     {
-                        FirstName = player.FirstName,
-                        LastName = player.LastName,
-                        Nickname = player.Nickname,
-                        PlayersId = eventPlayer.PlayersId,
-                        EventsId = eventPlayer.EventsId,
-                        PointsTotal = eventPlayer.PointsTotal,
-                        ParcoursName = parcour.Name,
-                        ParcoursId = parcour.Id,
-                        ParcoursCountAnimals = parcour.CountAnimals
-                                             
-                    });
+                        tmpModels.Add(new StatisticModel
+                        {
+                            FirstName = player.FirstName,
+                            LastName = player.LastName,
+                            Nickname = player.Nickname,
+                            PlayersId = eventPlayer.PlayersId,
+                            EventsId = eventPlayer.EventsId,
+                            PointsTotal = eventPlayer.PointsTotal,
+                            ParcoursName = parcour.Name,
+                            ParcoursId = parcour.Id,
+                            ParcoursCountAnimals = parcour.CountAnimals
+
+                        });
                     }
                 }
             }
-          
+
             return View(tmpModels);
 
-            
-
-            //List<EventHasPlayerModel> tmpModels = new List<EventHasPlayerModel>();
-
-            //foreach (var tmpPoints in dbCtx.EventsHasPlayers)
-            //{
-            //    foreach (var player in dbCtx.Players)
-            //    {
-
-            //    }
-
-            //    tmpModels.Add(new EventHasPlayerModel
-            //    {
-            //        PlayersId = tmpPoints.PlayersId,
-            //        EventsId = tmpPoints.EventsId,
-            //        PointsTotal = tmpPoints.PointsTotal
-
-            //    });
-
-            //}
-
-            //return View(tmpModels);
 
 
         }
+
+
         public IActionResult Admin()
         {
             List<ParcourModel> tmpModels = new List<ParcourModel>();
@@ -164,5 +162,23 @@ namespace ArcheryProject.Controllers
             return View(tmpPlayers);
         }
 
+        [HttpPost]
+        public IActionResult PrintPlayerList(string matchType)
+        {
+            if(matchType == "3 Pfeil Wertung")            
+            {
+                foreach (var tmpPlayer in tmpPlayers)
+                {
+                    tmpPlayers.Add(new PlayerModel
+                    {
+                        Nickname = tmpPlayer.Nickname
+                    });
+                }
+            }else
+            {     
+
+            }
+                return View(matchType);
+        }
     }
 }

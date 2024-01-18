@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using artaimusDBlib;
 using System;
+using Microsoft.AspNetCore.Http;
 //Home
 //Login
 
@@ -33,6 +34,8 @@ namespace ArcheryProject.Controllers
 
             return View();
         }
+
+
 
         public IActionResult RegisterLanding()
         {
@@ -78,10 +81,18 @@ namespace ArcheryProject.Controllers
             }
 
            
-            if (loginSuccess == true) {
-                PlayerModel player = GetPlayer(usernameOrEmail);
+            if ((loginSuccess == true) && !string.IsNullOrEmpty(usernameOrEmail)) {
                 
-                if(isAdmin == true)
+                PlayerModel player = GetPlayer(usernameOrEmail);
+
+                ApiHelper.SetUser(usernameOrEmail, player);
+
+                if (string.IsNullOrEmpty(HttpContext.Session.GetString("UsernameOrEmail")))
+                {
+                    HttpContext.Session.SetString("UsernameOrEmail", usernameOrEmail);
+                }
+
+                if (isAdmin == true)
                 {
                     return RedirectToAction("Index", "Admin", player); //"Action", "Controller"
                 }
@@ -97,6 +108,10 @@ namespace ArcheryProject.Controllers
             }
            
         }
+
+
+
+
 
         [HttpGet]
         public bool LoginSuccessByUsername(string? username, string? password) {
@@ -217,6 +232,11 @@ namespace ArcheryProject.Controllers
            
             return player;
         }
+
+
+      
+
+
 
         //Register
         ////////////////////////////////////////////////////

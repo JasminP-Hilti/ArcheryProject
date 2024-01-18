@@ -1,10 +1,117 @@
-﻿@{
+﻿@model List<StatisticModel>
+
+
+
+@{
     ViewData["Title"] = "Stats";
-    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    Layout = "~/Views/Shared/_Layout_Player.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
+
+
+
 
 <div class="container">
+    <h1 style="color:white">@ViewData["Title"]</h1>
+    <table class="col-12" style="border-collapse: collapse; background-color: #f0f0f0; border-radius: 15px;">
+        <thead>
 
+          
+            <tr style="border-bottom: 1px solid black; text-align:center; font-size: 1.2rem;">
+                <th>name</th>
+                <th>parcour</th>
+                <th>average points</th>
+               @*  <th>ParcourId</th> *@
+                <th>points total</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tmpPoints in Model)
+            {
+                <tr>
+                    <td style="padding-left:2rem;">
+                        @tmpPoints.FirstName
+                        @tmpPoints.LastName</td>
+                    <td style="padding-left:2rem;">@tmpPoints.ParcoursName</td>
+
+                    <td style="text-align:center;">@Math.Round(tmpPoints.PointsTotal / (double) tmpPoints.ParcoursCountAnimals, 2)</td>
+                   
+                    @* <td style="text-align:center;">@tmpPoints.ParcoursId</td> *@
+                    <td style="text-align:center;">@tmpPoints.PointsTotal</td>
+
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+
+<div class="container pt-5" >
+    <h2 style="color:white"> Leistungskurve</h2>
+    <canvas id="lineChart" ></canvas>
+</div>
+
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+ *@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    var averagePointsData = @Html.Raw(Json.Serialize(Model.Select(p => Math.Round(p.PointsTotal / (double)p.ParcoursCountAnimals, 2))));
+    
+    var ctx = document.getElementById('lineChart').getContext('2d');
+
+
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array.from({ length: averagePointsData.length }, (_, i) => i + 1), 
+            datasets: [{
+                label: 'Average Points',
+                data: averagePointsData,
+                borderColor: 'rgba(158, 208, 255, 1)',  
+               // backgroundColor: "rgba((158, 208, 255, 1)",
+                borderWidth: 2,
+                
+                fill: false
+            }]
+        },
+        options: {
+          
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 1)',
+                        //suggestedMin: 1,
+                        // suggestedMax: 2
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 1)'
+
+
+                    }
+                }
+            },
+
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'rgba(255, 255, 255, 1)'
+                    }
+                }
+                    
+            }
+        }
+    });
+</script>
+
+
 

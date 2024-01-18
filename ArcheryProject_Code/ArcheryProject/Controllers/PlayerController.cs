@@ -7,16 +7,27 @@ namespace ArcheryProject.Controllers
     public class PlayerController : Controller
     {
         private ArtaimusContext dbCtx;
+        private readonly ILogger<PlayerController> _logger;
+        public List<PlayerModel> tmpPlayers = new List<PlayerModel>();
+
+        public PlayerController(ILogger<PlayerController> logger, ArtaimusContext dbCtx)
+        {
+            _logger = logger;
+
+            this.dbCtx = dbCtx;
+        }
         public IActionResult Index(PlayerModel player)
         {
             return View(player);
         }
-        public IActionResult Play()
+
+        public IActionResult Play(PlayerModel player)
         {
-            //todo: get player from login info
-            return View();
+            //Get logged in Player from DB
+            return View(player);
         }
-        public IActionResult Stats()
+
+         public IActionResult Stats()
         {
             List<StatisticModel> tmpModels = new List<StatisticModel>();
 
@@ -54,7 +65,11 @@ namespace ArcheryProject.Controllers
                 }
             }
 
-            return View(tmpModels);
+            return View(tmpModels);        
+
+
+
         }
+       
     }
 }

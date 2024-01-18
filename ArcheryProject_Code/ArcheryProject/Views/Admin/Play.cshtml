@@ -1,8 +1,9 @@
-﻿@model List<PlayerModel>
+﻿@model EventModel
 
 @{
     ViewData["Title"] = "Create new Match";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    @* string matchType = Request["matchType"]; *@
 }
 
 <h1 style="text-align: center;">@ViewData["Title"]</h1>
@@ -10,16 +11,40 @@
 <div class="container-fluid pt-3">
         <div class="container bg-white">
             <div>
-                <form id="createMatch" class="p-3">
-                <div class="form-outline mb-4">
-                    <label class="form-label col-3" for="type"><b>Type:</b> </label>
-                    <select id="matchType">
-                        <option>3 Pfeil Wertung</option>
-                        <option>2 Pfeil Wertung</option>
-                    </select>
-                </div>
+                <form id="createMatch" class="p-3" asp-controller="Admin" asp-action="Play" method="post">
+                    <div class="form-outline mb-4">
+                        <label class="form-label col-3" for="type"><b>Type:</b> </label>
+                        <select asp-for="CountTypeValue">
+                            @foreach (var tmpCountType in ArcheryProject.Models.EventModel.countTypeNames)
+                            {
+                                <option value="@tmpCountType.Key">@tmpCountType.Value</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit">Senden</button>
                 </form>
                 <div class="pt-3 pb-3">
+                @if (Model.CountTypeValue == EventModel.CountType.PfeilWertung2)
+                {
+                    <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #000; padding: 8px;">ID</th>
+                                <th style="border: 1px solid #000; padding: 8px;">Name</th>
+                                <th style="border: 1px solid #000; padding: 8px;">Location</th>
+                                <th style="border: 1px solid #000; padding: 8px;">CountAnimals</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tmpPlayer in ArcheryProject.Models.EventModel.tmpPlayerList)
+                        </tbody>
+                    </table>
+                }
+                    else
+                    {
+                    
+                    }
+
                    @*  <label class="form-label col-3" for="type">Player: </label> *@
                    
                    @* Old Table ->
@@ -32,31 +57,28 @@
                                 here should be shown the logged in player
                             </td>
                         </tr>
-                    </table> *@
-
-                    <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
-                        <thead>
-                            <tr>
-                                <th style="border: 1px solid #000; padding: 8px;">nickname</th>
-                                <th style="border: 1px solid #000; padding: 8px;">arrow 1</th>
-                                <th style="border: 1px solid #000; padding: 8px;">arrow 2</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @*   @if() //get value of matchType to determine tablecolumns
+                    </table> *@                    
+                          @*get value of matchType to determine tablecolumns*@
+                          @*   @if(matchType == "3 pfeil wertung") //get value of matchType to determine tablecolumns
                             {
                             foreach (var tmpPlayer in Model)
                             {
                                 <tr>
                                     <td>@tmpPlayer.Nickname</td>
+                                    <td>Arrow 1<td>
+                                    <td>Arrow 2<td>
+                                    <td>Arrow 3<td>
                                 </tr>
                             }else
                             {
-                                
+                                <tr>
+                                    <td>@tmpPlayer.Nickname</td>
+                                    <td>Arrow 1<td>
+                                    <td>Arrow 2<td>
+                                </tr>
                             }
                         } *@
-                        </tbody>
-                    </table>
+
                     <!-- Button trigger modal -->
                     <button id="matchAddPlayer" type="button" class="btn btn-seashell" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
                         Add Player
