@@ -3,6 +3,7 @@ using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.Win32;
 
 namespace ArcheryProject.Controllers
 {
@@ -29,37 +30,31 @@ namespace ArcheryProject.Controllers
         {
             
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
-            if (match == null)
+            if (match.PlayerList.Count == 0)
             {
                 match = new EventModel();
-                //match.PlayerList.Add(player);
+                match.PlayerList.Add(player.Email);
+                Parcour parcour = dbCtx.Parcours.Where(x => x.Id == 1).FirstOrDefault();
+                match.Parcours = parcour;
+                match.Name = "New Game";
             }
-            //ParcourModel parcoursModel = new ParcourModel();
-
-            return View(player);
+      
+            return View(match);
         }
 
 
         [HttpPost]
         public IActionResult PlaySetup(EventModel match)
         {
+            string newplayer = match.ModalLoginName;
+            match.PlayerList.Add(newplayer);
 
 
 
-
-            return RedirectToAction("Play", match);
+            return RedirectToAction("Play", "Player", match);
         }
 
-        //[HttpPost]
-        //public IActionResult Play(EventModel match)
-        //{
-
-
-
-
-
-        //    return View(match);
-        //}
+      
 
         public IActionResult Logout()
         {

@@ -10,7 +10,7 @@
     <div class="container bg-white">
         <div>
             <div class="mb-3 mt-3">
-                <form asp-controller="Player" asp-action="Play" method="post">
+                <form asp-controller="Player" asp-action="PlaySetup" method="post">
                     <div>
                         <label for="SelectedParcours">Select an option:</label>
                         <select asp-for="SelectedParcours" asp-items="new SelectList(Model.Name)">
@@ -20,7 +20,32 @@
                     <button type="submit">Submit</button>
                 </form>
             </div>
-            @* <div class="pt-3 pb-3">
+            <table>
+                <theader>
+                    <td>PLAYER</td>
+                    @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
+                    {
+                        <td>
+                            @cols;
+                        </td>
+                    }
+                </theader>
+               
+                @foreach(var player in Model.PlayerList)
+                {
+                    <tr>
+                        @player;
+                        @for (var cols = 0; cols < Model.Parcours.CountAnimals; cols++)
+                        {
+                            <td> </td> 
+                        }
+                    </tr>
+                }
+            </table>
+            @* 
+                
+            
+            <div class="pt-3 pb-3">
             @if (Model.CountTypeValue == EventModel.CountType.PfeilWertung2)
             {
             <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
