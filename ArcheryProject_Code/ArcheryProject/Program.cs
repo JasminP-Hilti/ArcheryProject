@@ -1,5 +1,8 @@
+using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.EntityFrameworkCore;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +12,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ArtaimusContext>(op => op.UseMySQL(
     builder.Configuration.GetConnectionString("Archery")));
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 //Build the builder
 var app = builder.Build();
+
 
 
 
@@ -24,6 +37,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 
