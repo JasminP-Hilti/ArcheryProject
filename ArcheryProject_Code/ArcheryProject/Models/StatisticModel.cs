@@ -15,7 +15,7 @@
         public string? ParcoursName { get; set; }
         public float ParcoursCountAnimals { get; set; }
 
-      
+     
 
     }
 

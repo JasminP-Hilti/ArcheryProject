@@ -29,13 +29,11 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
-        public IActionResult Play()
+        public IActionResult Play(PlayerModel player)
         {
             //Get logged in Player from DB
-<<<<<<< HEAD
-            return View();
-=======
-            return View(player); ;
+
+            return View(player); 
         }
 
         [HttpPost]
@@ -43,7 +41,7 @@ namespace ArcheryProject.Controllers
         {
             //Get logged in Player from DB
             return View(eventModel);
->>>>>>> 0dd5f15a1f6d599c2611c19c51e828dbcade644a
+
         }
 
 

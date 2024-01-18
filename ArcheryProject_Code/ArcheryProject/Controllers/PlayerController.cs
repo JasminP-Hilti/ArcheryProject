@@ -29,7 +29,9 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
-         public IActionResult Stats()
+
+
+        public IActionResult Stats()
         {
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();
@@ -73,7 +75,7 @@ namespace ArcheryProject.Controllers
 
 
         }
-       
+
 
     }
 }

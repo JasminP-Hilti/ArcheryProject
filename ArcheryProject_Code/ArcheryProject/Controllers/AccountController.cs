@@ -91,6 +91,8 @@ namespace ArcheryProject.Controllers
                 {
                     return RedirectToAction("Index", "Player", player); //"Action", "Controller"
                 }
+
+
             }
             else
             {

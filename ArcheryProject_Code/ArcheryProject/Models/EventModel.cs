@@ -10,7 +10,7 @@ namespace ArcheryProject.Models
             { CountType.PfeilWertung2, "PfeilWertung2" }
         };
 
-        public static List<Player> tmpPlayerList = new List<Player> {  }
+        public static List<Player> tmpPlayerList = new List<Player> { };
 
         public enum CountType { PfeilWertung3, PfeilWertung2 }
 
