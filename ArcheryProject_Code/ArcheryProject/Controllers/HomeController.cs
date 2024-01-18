@@ -16,6 +16,8 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Index()
         {
+            //PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+
             ApiHelper.SetUser("", null);
             return View();
         }

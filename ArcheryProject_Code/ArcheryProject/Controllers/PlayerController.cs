@@ -33,10 +33,7 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Stats()
         {
-
-
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
-
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();
 
@@ -46,14 +43,12 @@ namespace ArcheryProject.Controllers
 
             foreach (var eventPlayer in dbCtx.EventsHasPlayers)
             {
-
                 var tmpplayer = playersList.FirstOrDefault(p => p.Id == eventPlayer.PlayersId && p.Id == player.Id);
-
                 var eventInfo = eventList.FirstOrDefault(e => e.Id == eventPlayer.EventsId);
 
 
 
-                if (player != null && eventInfo != null)
+                if (tmpplayer != null && eventInfo != null)
                 {
                     var parcour = parcourList.FirstOrDefault(p => p.Id == eventInfo.ParcoursId);
 
@@ -76,7 +71,7 @@ namespace ArcheryProject.Controllers
                 }
             }
 
-            return View(tmpModels);        
+            return View(tmpModels);
 
 
 
