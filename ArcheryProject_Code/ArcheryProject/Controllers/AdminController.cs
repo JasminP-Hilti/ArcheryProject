@@ -23,15 +23,17 @@ namespace ArcheryProject.Controllers
             this.dbCtx = dbCtx;
         }
 
-        public IActionResult Index(PlayerModel player)
+        public IActionResult Index()
         {
+            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
 
             return View(player);
         }
 
-        public IActionResult Play(PlayerModel player)
+        public IActionResult Play()
         {
-            //Get logged in Player from DB
+            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+           
 
             return View(player); 
         }
