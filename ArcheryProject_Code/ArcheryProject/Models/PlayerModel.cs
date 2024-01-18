@@ -15,6 +15,11 @@ namespace ArcheryProject.Models
         public ulong Admin { get; set; }
 
         public int? LoginsId { get; set; }
+        public List<EventsHasPlayer>? PlayedEvents { get; set; }
+
+        public List<Event>? Events { get; set; }
+
+        public List<Parcour>? Parcours { get; set; }
 
         public string? GetGreetingMessage()
             {
