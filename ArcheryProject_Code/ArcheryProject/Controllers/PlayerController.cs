@@ -22,9 +22,9 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
-        public IActionResult Play()
+        public IActionResult Play(PlayerModel player)
         {
-            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+           // PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
 
             return View(player);
         }

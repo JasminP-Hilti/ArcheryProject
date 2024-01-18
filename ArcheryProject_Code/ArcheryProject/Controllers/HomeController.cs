@@ -16,7 +16,7 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Index()
         {
-            ApiHelper.SetUser("", null);
+            //ApiHelper.SetUser("", null);
             return View();
         }
 

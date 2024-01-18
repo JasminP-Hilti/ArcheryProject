@@ -20,7 +20,7 @@ namespace ArcheryProject
                 PlayerModel tmpPlayer = users[name];
 
                 tmpPlayer.PlayedEvents = new List<artaimusDBlib.EventsHasPlayer> { };
-                tmpPlayer.Parcours = new List<artaimusDBlib.Parcour>();
+                tmpPlayer.Parcours = new List<artaimusDBlib.Parcour> { };
                 tmpPlayer.Events = new List<artaimusDBlib.Event> { };
 
                 return users[name];
