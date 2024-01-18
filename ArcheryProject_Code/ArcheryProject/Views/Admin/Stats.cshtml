@@ -47,9 +47,13 @@
 </div>
 
 
-<div class="container pt-5" >
+<div class="container mt-5 pt-3 bg-darkgreen">
     <h2 style="color:white"> Leistungskurve</h2>
-    <canvas id="lineChart" ></canvas>
+    <p style="color:white">
+        x-Achse: Spiele <br />
+        y-Achse: Punkte
+    </p>
+    <canvas id="lineChart"></canvas>
 </div>
 
 @* <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -59,26 +63,26 @@
 <script>
 
     var averagePointsData = @Html.Raw(Json.Serialize(Model.Select(p => Math.Round(p.PointsTotal / (double)p.ParcoursCountAnimals, 2))));
-    
+
     var ctx = document.getElementById('lineChart').getContext('2d');
 
 
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: Array.from({ length: averagePointsData.length }, (_, i) => i + 1), 
+            labels: Array.from({ length: averagePointsData.length }, (_, i) => i + 1),
             datasets: [{
                 label: 'Average Points',
                 data: averagePointsData,
-                borderColor: 'rgba(158, 208, 255, 1)',  
-               // backgroundColor: "rgba((158, 208, 255, 1)",
+                borderColor: 'rgba(158, 208, 255, 1)',
+                // backgroundColor: "rgba((158, 208, 255, 1)",
                 borderWidth: 2,
-                
+
                 fill: false
             }]
         },
         options: {
-          
+
             responsive: true,
             maintainAspectRatio: true,
             scales: {
@@ -89,14 +93,18 @@
                         color: 'rgba(255, 255, 255, 1)',
                         //suggestedMin: 1,
                         // suggestedMax: 2
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 },
                 y: {
                     beginAtZero: true,
                     ticks: {
                         color: 'rgba(255, 255, 255, 1)'
-
-
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)'
                     }
                 }
             },
@@ -107,7 +115,7 @@
                         color: 'rgba(255, 255, 255, 1)'
                     }
                 }
-                    
+
             }
         }
     });

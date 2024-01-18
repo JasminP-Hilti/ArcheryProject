@@ -24,6 +24,7 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
+        [HttpGet]
         public IActionResult Play(EventModel match)
         {
             
@@ -31,12 +32,13 @@ namespace ArcheryProject.Controllers
             if (match == null)
             {
                 match = new EventModel();
-                match.PlayerList.Add(player);
+                //match.PlayerList.Add(player);
             }
             //ParcourModel parcoursModel = new ParcourModel();
 
             return View(player);
         }
+
 
         [HttpPost]
         public IActionResult PlaySetup(EventModel match)
@@ -45,19 +47,34 @@ namespace ArcheryProject.Controllers
 
 
 
-
             return RedirectToAction("Play", match);
         }
 
-        [HttpPost]
-        public IActionResult Play(EventModel match)
+        //[HttpPost]
+        //public IActionResult Play(EventModel match)
+        //{
+
+
+
+
+
+        //    return View(match);
+        //}
+
+        public IActionResult Logout()
         {
-            
+            var usernameOrEmail = HttpContext.Session.GetString("UsernameOrEmail");
 
+            if (usernameOrEmail != null)
+            {
+                PlayerModel player = ApiHelper.GetUser(usernameOrEmail);
+                ApiHelper.RemoveUser(player);
 
-            
+                HttpContext.Session.Clear();
+            }
 
-            return View(match);
+            return RedirectToAction("index", "Home");
+
         }
 
 

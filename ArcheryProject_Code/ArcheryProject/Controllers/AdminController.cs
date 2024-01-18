@@ -30,22 +30,44 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
-        public IActionResult Play()
+//        public IActionResult Play(PlayerModel player)
+//        {
+
+//            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+
+//;
+           
+
+//            return View(player); 
+//        }
+
+//        [HttpPost]
+//        public IActionResult Play(EventModel eventModel)
+//        {
+//            //Get logged in Player from DB
+//            return View(eventModel);
+//        }
+
+        public IActionResult Logout()
         {
-            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+            var usernameOrEmail = HttpContext.Session.GetString("UsernameOrEmail");
 
-            return View(player);
+            if (usernameOrEmail != null)
+            {
+                PlayerModel player = ApiHelper.GetUser(usernameOrEmail);
+                ApiHelper.RemoveUser(player);
+
+                HttpContext.Session.Clear();
+            }
+            
+            return RedirectToAction("index", "Home");
+
         }
-
-
-        //public IActionResult Stats()
-        //{
-        //    return View();
-        //}
 
 
         public IActionResult Stats()
         {
+
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();
@@ -143,6 +165,27 @@ namespace ArcheryProject.Controllers
                 await dbCtx.SaveChangesAsync();
             }
             return RedirectToAction("Admin");
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditParcour(Parcour parcour)
+        {
+            if (ModelState.IsValid)
+            {
+                // Logik zum Speichern der Daten in der Datenbank
+                dbCtx.Parcours.Update(parcour);
+                await dbCtx.SaveChangesAsync();
+            }
+            return RedirectToAction("Admin");
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditPlayer(Player player)
+        {
+
+                // Logik zum Speichern der Daten in der Datenbank
+                dbCtx.Players.Update(player);
+                await dbCtx.SaveChangesAsync();
+            
+            return RedirectToAction("Admin2");
         }
         [HttpPost]
         public IActionResult AddPlayerToPlay(PlayerModel player)
