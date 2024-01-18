@@ -1,8 +1,10 @@
-﻿@{
+﻿@model PlayerModel
+@{
     ViewData["Title"] = "Home";
-    Layout = "~/Views/Shared/_Layout_Player";
-    
+    Layout = "~/Views/Shared/_Layout_Player.cshtml";
+
 }
+@*
+<h1>@ViewData["Title"]</h1> *@
 
-<h1>@ViewData["Title"]</h1>
-
+<h1>@Model.GetGreetingMessage()</h1>
