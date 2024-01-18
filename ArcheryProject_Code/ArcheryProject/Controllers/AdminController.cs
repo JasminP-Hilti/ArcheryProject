@@ -33,17 +33,8 @@ namespace ArcheryProject.Controllers
         public IActionResult Play()
         {
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
-           
 
-            return View(player); 
-        }
-
-        [HttpPost]
-        public IActionResult Play(EventModel eventModel)
-        {
-            //Get logged in Player from DB
-            return View(eventModel);
-
+            return View(player);
         }
 
 

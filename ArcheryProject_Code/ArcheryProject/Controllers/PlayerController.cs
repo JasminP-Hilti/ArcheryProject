@@ -1,6 +1,8 @@
 ﻿using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace ArcheryProject.Controllers
 {
@@ -22,13 +24,41 @@ namespace ArcheryProject.Controllers
             return View(player);
         }
 
-        public IActionResult Play()
+        public IActionResult Play(EventModel match)
         {
+            
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+            if (match == null)
+            {
+                match = new EventModel();
+                match.PlayerList.Add(player);
+            }
+            //ParcourModel parcoursModel = new ParcourModel();
 
             return View(player);
         }
 
+        [HttpPost]
+        public IActionResult PlaySetup(EventModel match)
+        {
+
+
+
+
+
+            return RedirectToAction("Play", match);
+        }
+
+        [HttpPost]
+        public IActionResult Play(EventModel match)
+        {
+            
+
+
+            
+
+            return View(match);
+        }
 
 
         public IActionResult Stats()

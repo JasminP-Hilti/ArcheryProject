@@ -8,5 +8,8 @@
         public string? Location { get; set; }
 
         public int CountAnimals { get; set; }
+        public List<ParcourModel> AvailableParcours { get; set; }
+
+        public string SelectedParcours { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model EventModel
+﻿@model ParcourModel
 
 @{
     ViewData["Title"] = "Create new Match";
@@ -9,21 +9,19 @@
 <h1 style="text-align: center;">@ViewData["Title"]</h1>
 
 <div class="container-fluid pt-3">
-        <div class="container bg-white">
-            <div>
-                <form id="createMatch" class="p-3" asp-controller="Admin" asp-action="Play" method="post">
-                    <div class="form-outline mb-4">
-                        <label class="form-label col-3" for="type"><b>Type:</b> </label>
-                        <select asp-for="CountTypeValue">
-                            @foreach (var tmpCountType in ArcheryProject.Models.EventModel.countTypeNames)
-                            {
-                                <option value="@tmpCountType.Key">@tmpCountType.Value</option>
-                            }
-                        </select>
-                    </div>
-                    <button type="submit">Senden</button>
-                </form>
-                <div class="pt-3 pb-3">
+    <div class="container bg-white">
+        <div>
+            <div class="mb-3 mt-3">
+                <label asp-for="Id" class="form-label"> Parcours </label>
+                @Html.DropDownListFor(
+                         model => model.Id,
+                         new SelectList(Model.AvailableParcours, "Id", "Name"),
+                         "Wähle einen Parcours",
+                         new { @class = "form-control" }
+                         )
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            @* <div class="pt-3 pb-3">
                 @if (Model.CountTypeValue == EventModel.CountType.PfeilWertung2)
                 {
                     <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
@@ -38,91 +36,59 @@
                         <tbody>
                             @foreach (var tmpPlayer in ArcheryProject.Models.EventModel.tmpPlayerList)
                             {
-                                
+
                             }
                         </tbody>
                     </table>
                 }
-                    else
-                    {
-                    
-                    }
+                else
+                {
 
-                   @*  <label class="form-label col-3" for="type">Player: </label> *@
-                   
-                   @* Old Table ->
+                }
 
-                       <table id="matchPlayerTable" style="align-self:center;">
-                        <thead><b>Player:</b></thead>
-                        <tr>
-                            <td class="col-1"> - </td>
-                            <td id="player1">
-                                here should be shown the logged in player
-                            </td>
-                        </tr>
-                    </table> *@                    
-                          @*get value of matchType to determine tablecolumns*@
-                          @*   @if(matchType == "3 pfeil wertung") //get value of matchType to determine tablecolumns
-                            {
-                            foreach (var tmpPlayer in Model)
-                            {
-                                <tr>
-                                    <td>@tmpPlayer.Nickname</td>
-                                    <td>Arrow 1<td>
-                                    <td>Arrow 2<td>
-                                    <td>Arrow 3<td>
-                                </tr>
-                            }else
-                            {
-                                <tr>
-                                    <td>@tmpPlayer.Nickname</td>
-                                    <td>Arrow 1<td>
-                                    <td>Arrow 2<td>
-                                </tr>
-                            }
-                        } *@
+            </div> *@
 
-                    <!-- Button trigger modal -->
-                    <button id="matchAddPlayer" type="button" class="btn btn-seashell" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
-                        Add Player
-                    </button>
+            <!-- Button trigger modal -->
+            <button id="matchAddPlayer" type="button" class="btn btn-seashell" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
+                Add Player
+            </button>
 
-                    <!-- Modal -->
-                    <form asp-controller="Admin" asp-action="AddPlayerToPlay" method="post">
-                    <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">New Player</h5>4
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Modal -->
+            <form asp-controller="Admin" asp-action="AddPlayerToPlay" method="post">
+                <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">New Player</h5>4
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="ModalLoginName">Nickname</label>
+                                    <input type="text" id="ModalLoginName" class="form-control" />
                                 </div>
-                                <div class="modal-body">
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="ModalLoginName">Nickname</label>
-                                        <input type="text" id="ModalLoginName" class="form-control" />
-                                    </div>
 
-                                    <!-- Password input -->
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="ModalLoginPassword">Password</label>
-                                        <input type="password" id="ModalLoginPassword" class="form-control" />
-                                    </div>
-                                    <div if="modalFeedback" class="">
-                                        <i> Note: If password is left empty, user will be added without connection to account.</i>
-                                    </div>
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="ModalLoginPassword">Password</label>
+                                    <input type="password" id="ModalLoginPassword" class="form-control" />
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button id="modalSaveAddPlayer" type="submit" class="btn btn-primary">Save changes</button>
+                                <div if="modalFeedback" class="">
+                                    <i> Note: If password is left empty, user will be added without connection to account.</i>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button id="modalSaveAddPlayer" type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
-                    </form>
                 </div>
-                <button id="matchStart" class="btn btn-seashell">Start</button>
-            </div>
-
+            </form>
         </div>
+        <button id="matchStart" class="btn btn-seashell">Start</button>
+    </div>
+
+</div>
 </div>
 
