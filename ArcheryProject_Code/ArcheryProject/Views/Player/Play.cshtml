@@ -13,37 +13,43 @@
                 <form asp-controller="Player" asp-action="PlaySetup" method="post">
                     <div>
                         <label for="SelectedParcours">Select an option:</label>
-                        <select asp-for="SelectedParcours" asp-items="new SelectList(Model.Name)">
+                        <select asp-for="SelectedParcours" asp-items="new SelectList(Model.AvailableParcours)">
                             <option value="">Select...</option>
                         </select>
                     </div>
                     <button type="submit">Submit</button>
                 </form>
             </div>
-            <table>
-                <theader>
-                    <td>PLAYER</td>
-                    @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
-                    {
-                        <td>
-                            @cols;
-                        </td>
-                    }
-                </theader>
-               
-                @foreach(var player in Model.PlayerList)
-                {
-                    <tr>
-                        @player;
-                        @for (var cols = 0; cols < Model.Parcours.CountAnimals; cols++)
+            <div class="container" style="background-color: lightgray; padding: 1rem;">
+                <table id="matchBoard">
+                    @* <thead>New Match</thead> *@
+                    <tr class="col-12">
+                        <th class="col-1">AIM</th>
+                        @foreach(var player in Model.PlayerList)
                         {
-                            <td> </td> 
+                            <th class="col" style="text-align: center;">
+                                @player
+                            </th>
                         }
                     </tr>
-                }
-            </table>
+               
+                    @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
+                    {
+                    <tr>
+                            <td class="col-1">@cols</td>
+                            @foreach (var player in Model.PlayerList)
+                            {
+                                <td>
+                                                               
+                                </td>
+                            }
+                    </tr>
+                    }
+
+                </table>
+            </div>
             @* 
-                
+               
             
             <div class="pt-3 pb-3">
             @if (Model.CountTypeValue == EventModel.CountType.PfeilWertung2)
@@ -80,7 +86,7 @@
                     <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                        <form asp-controller="Player" asp-action="PlaySetup">
+                        <form asp-controller="Account" asp-action="AddPlayerToEvent">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -114,5 +120,5 @@
             </div>
 
         </div>
-</div>
+
 

@@ -1,14 +1,12 @@
 ﻿using ArcheryProject.Models;
-using Microsoft.AspNetCore.Mvc;
 using artaimusDBlib;
-using System;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 //Home
 //Login
 
 namespace ArcheryProject.Controllers
 {
-    
+
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
@@ -39,7 +37,7 @@ namespace ArcheryProject.Controllers
         {
             return View();
         }
-      
+
 
         //Login
         ////////////////////////////////////////////////////
@@ -52,7 +50,8 @@ namespace ArcheryProject.Controllers
             bool loginSuccess = false;
             bool isAdmin = false;
 
-            if (usernameOrEmail != null || password != null) {
+            if (usernameOrEmail != null || password != null)
+            {
                 if (usernameOrEmail.Contains('@'))
                 {
                     loginSuccess = LoginSuccessByEmail(usernameOrEmail, password);
@@ -61,19 +60,20 @@ namespace ArcheryProject.Controllers
                 {
                     loginSuccess = LoginSuccessByUsername(usernameOrEmail, password);
                 }
-                                
+
                 isAdmin = IsAdmin(usernameOrEmail);
             }
 
-           
-            if ((loginSuccess == true) && !string.IsNullOrEmpty(usernameOrEmail)) {
-                
+
+            if ((loginSuccess == true) && !string.IsNullOrEmpty(usernameOrEmail))
+            {
+
                 PlayerModel player = GetPlayer(usernameOrEmail);
                 if (usernameOrEmail.Contains('@'))
                 {
                     player.Email = usernameOrEmail;
                 }
-                
+
 
                 ApiHelper.SetUser(usernameOrEmail, player);
 
@@ -101,26 +101,27 @@ namespace ArcheryProject.Controllers
 
 
         [HttpGet]
-        public bool LoginSuccessByUsername(string? username, string? password) {
+        public bool LoginSuccessByUsername(string? username, string? password)
+        {
             bool loginSuccess = false;
 
-                //Get Player from DB by username
-                Player? tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == username).FirstOrDefault();
+            //Get Player from DB by username
+            Player? tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == username).FirstOrDefault();
 
-                if (tmpDBPlayer != null)
+            if (tmpDBPlayer != null)
+            {
+                //Get Logindata from Player by Loginid
+                Login? tmpDBLogin = dbCtx.Logins.Where(x => x.Id == tmpDBPlayer.LoginsId).FirstOrDefault();
+                if (tmpDBLogin != null)
                 {
-                    //Get Logindata from Player by Loginid
-                    Login? tmpDBLogin = dbCtx.Logins.Where(x => x.Id == tmpDBPlayer.LoginsId).FirstOrDefault();
-                    if (tmpDBLogin != null)
+                    //check if Password is correct
+                    if (tmpDBLogin.Password == password)
                     {
-                        //check if Password is correct
-                        if (tmpDBLogin.Password == password)
-                        {
-                            // Passwords match => login successful
-                            loginSuccess = true;
-                        }
+                        // Passwords match => login successful
+                        loginSuccess = true;
                     }
                 }
+            }
             return loginSuccess;
         }
 
@@ -161,15 +162,15 @@ namespace ArcheryProject.Controllers
 
                 if (tmpDBPlayer != null)
                 {
-                    if(tmpDBPlayer.Admin == 1)
+                    if (tmpDBPlayer.Admin == 1)
                     {
                         isAdmin = true;
                     }
                 }
             }
-            
+
             //get info by email
-            else if(usernameOrEmail.Contains('@') == true)
+            else if (usernameOrEmail.Contains('@') == true)
             {
                 Login? tmpDBLogin = dbCtx.Logins.Where(x => x.Email == usernameOrEmail).FirstOrDefault();
 
@@ -203,25 +204,25 @@ namespace ArcheryProject.Controllers
             {
                 tmpDBPlayer = dbCtx.Players.Where(x => x.Nickname == usernameOrEmail).FirstOrDefault();
             }
-           
+
             if (tmpDBPlayer != null)
             {
                 player = new PlayerModel
                 {
                     Id = tmpDBPlayer.Id,
-                    FirstName = tmpDBPlayer.FirstName, 
+                    FirstName = tmpDBPlayer.FirstName,
                     LastName = tmpDBPlayer.LastName,
                     Nickname = tmpDBPlayer.Nickname,
                     Admin = tmpDBPlayer.Admin,
                     LoginsId = tmpDBPlayer.LoginsId
                 };
             }
-           
+
             return player;
         }
 
 
-      
+
 
 
 
@@ -239,11 +240,11 @@ namespace ArcheryProject.Controllers
 
                 Login? tmpDBLogin = null;
                 tmpDBLogin = dbCtx.Logins.Where(x => x.Email == register.registerEmail).FirstOrDefault();
-                if(tmpDBLogin != null)
+                if (tmpDBLogin != null)
                 {
                     tmpDBPlayer = dbCtx.Players.Where(x => x.LoginsId == tmpDBLogin.Id).FirstOrDefault();
                 }
-   
+
 
                 if (tmpDBPlayer == null)
                 {
@@ -256,7 +257,8 @@ namespace ArcheryProject.Controllers
                     };
                     dbCtx.Logins.Add(tmpDBLogin);
                     dbCtx.SaveChanges();
-                    tmpDBPlayer = new Player { 
+                    tmpDBPlayer = new Player
+                    {
                         Id = 0,
                         FirstName = register.RegisterFirstName,
                         LastName = register.registerLastName,
@@ -272,7 +274,7 @@ namespace ArcheryProject.Controllers
             TempData["OpenModalRegisterFailed"] = true;
             return RedirectToAction("LoginOrRegister");
         }
-     
+
 
         [HttpGet]
         public bool registerdataIsValid(LoginOrRegisterModel register)
@@ -294,19 +296,20 @@ namespace ArcheryProject.Controllers
             //Password = PasswordRepeat && longer than 6 char && doesnt contain @ && symbols
             if (password == passwordRepeat)
             {
-                if(password != null)
+                if (password != null)
                 {
-                    if(password.Any(c => char.IsDigit(c) == true && char.IsSymbol(c) == true && c != '@') && password.Length >= 6)
+                    if (password.Any(c => char.IsDigit(c) == true && char.IsSymbol(c) == true && c != '@') && password.Length >= 6)
                     {
                         passwordIsValid = true;
-                    }    
+                    }
                 }
             }
             //username is available / unique
             bool usernameIsAvailable = UsernameIsAvailable(username);
 
             bool namesAreValid = false;
-            if(firstname != null && lastname != null) {
+            if (firstname != null && lastname != null)
+            {
                 if (firstname.Any(char.IsDigit) == false &&
               lastname.Any(char.IsDigit) == false)
                 {
@@ -314,11 +317,11 @@ namespace ArcheryProject.Controllers
                 }
             }
 
-            if (namesAreValid ==true &&
+            if (namesAreValid == true &&
                passwordIsValid == true &&
                email.Contains('@') &&
-               usernameIsAvailable == true) 
-            { 
+               usernameIsAvailable == true)
+            {
                 dataIsValid = true;
             }
 
@@ -340,6 +343,41 @@ namespace ArcheryProject.Controllers
                 }
             }
             return usernameIsAvailable;
-        } 
+        }
+
+
+        //PLAY
+        ////////////////////////////////////////////////////
+
+
+        public IActionResult AddPlayerToEvent(EventModel match)
+        {
+            string usernameOrEmail = "";
+            string password = "";
+            if (match.ModalLoginName != null)
+            {
+                usernameOrEmail = match.ModalLoginName;
+            }
+            if (match.ModalLoginPassword != null)
+            {
+                password = match.ModalLoginPassword;
+            }
+
+
+            if (LoginSuccessByEmail(usernameOrEmail, password) == true || LoginSuccessByUsername(usernameOrEmail, password) == true)
+            {
+                match.PlayerList.Add(usernameOrEmail);
+                match.LoggedIn.Add(true);
+            }
+            else if (usernameOrEmail == "")
+            {
+                match.PlayerList.Add(usernameOrEmail);
+                match.LoggedIn.Add(false);
+            }
+            //get firstuser from match check if isAdmin  and return to correct controller
+            //player:
+            return RedirectToAction("PlaySetup", "Player", match);
+
+        }
     }
 }

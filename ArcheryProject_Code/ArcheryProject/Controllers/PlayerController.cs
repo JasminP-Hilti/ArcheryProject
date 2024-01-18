@@ -1,9 +1,6 @@
 ﻿using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Win32;
 
 namespace ArcheryProject.Controllers
 {
@@ -19,6 +16,8 @@ namespace ArcheryProject.Controllers
 
             this.dbCtx = dbCtx;
         }
+
+
         public IActionResult Index()
         {
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
@@ -28,33 +27,36 @@ namespace ArcheryProject.Controllers
         [HttpGet]
         public IActionResult Play(EventModel match)
         {
-            
+
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
             if (match.PlayerList.Count == 0)
             {
                 match = new EventModel();
-                match.PlayerList.Add(player.Email);
-                Parcour parcour = dbCtx.Parcours.Where(x => x.Id == 1).FirstOrDefault();
-                match.Parcours = parcour;
+                if (player.Nickname != null)
+                {
+                    match.PlayerList.Add(player.Nickname);
+                }
+                else
+                {
+                    match.PlayerList.Add(player.Email);
+                }
+                match.LoggedIn.Add(true);
+                List<Parcour> ParcourList = dbCtx.Parcours.ToList();
+                match.Parcours = ParcourList[1];
                 match.Name = "New Game";
             }
-      
+
             return View(match);
         }
 
 
         [HttpPost]
-        public IActionResult PlaySetup(EventModel match)
+        public IActionResult PlaySetup(EventModel match, bool loggedIn)
         {
-            string newplayer = match.ModalLoginName;
-            match.PlayerList.Add(newplayer);
-
-
-
             return RedirectToAction("Play", "Player", match);
         }
 
-      
+
 
         public IActionResult Logout()
         {
@@ -120,4 +122,5 @@ namespace ArcheryProject.Controllers
         }
 
     }
+
 }

@@ -10,7 +10,8 @@ namespace ArcheryProject.Models
         /// //////////////////////////////////////////////////////////////////////////////
         /// </summary>
         /// 
-        public List<ParcourModel> AvailableParcours { get; set; }
+       
+        public List<Parcour> AvailableParcours = new List<Parcour> { };
 
         public string SelectedParcours { get; set; }
 
@@ -48,7 +49,12 @@ namespace ArcheryProject.Models
 
         public Parcour? Parcours { get; set; }  //id & anzahl ziele = spalten
 
+
+        //
+
         public List<string> PlayerList = new List<string> { };
+
+        public List<bool> LoggedIn = new List<bool>();
 
         public List<int> Points = new List<int> { };
 

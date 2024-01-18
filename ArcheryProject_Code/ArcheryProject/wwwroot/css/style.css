@@ -77,3 +77,18 @@
 #315C2B
 #60712F
 #FF801F*/
+
+
+#matchBoard {
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+#matchBoard td {
+        border: 2px solid darkseagreen;
+        padding: 1rem;
+    }
+
+#matchBoard t4 {
+        padding: 1rem;
+    }
