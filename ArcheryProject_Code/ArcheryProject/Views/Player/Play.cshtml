@@ -63,15 +63,16 @@
                             </th>
                         }
                     </tr>
+
                     
-                
                     @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
                     {
+                    
                     <tr>
                             <td class="col-1">@cols</td>
                             @foreach (var player in Model.PlayerList)
                             {
-                            <td style="text-align: center;" onclick="openPointModal('@cols')" id="@cols" onchange="sumColumns(this)">
+                            <td style="text-align: center;" onclick="openPointModal('@player@cols')" id="@player@cols" onchange="sumColumns(this)">
                                                                
                             </td>
                             }

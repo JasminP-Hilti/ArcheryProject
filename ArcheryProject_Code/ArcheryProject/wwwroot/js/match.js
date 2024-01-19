@@ -27,6 +27,9 @@ function openPointModal(id) {
 }
 function closeModal() {
     // Hide the modal using Bootstrap's modal method
+   
+    $('input[type="radio"]').prop('checked', false);
+    
     $('#pointsModal').modal('hide');
 }
 
