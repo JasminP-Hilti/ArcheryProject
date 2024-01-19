@@ -92,3 +92,48 @@
 #matchBoard t4 {
         padding: 1rem;
     }
+
+/*.pointsModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+*/
+
+/* Hide the default radio button */
+input[type="radio"] {
+    display: none;
+}
+
+/* Style the custom radio button container */
+.custom-radio {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin: 0.25rem; /* Adjust padding as needed */
+
+    border-radius: 5px; /* Border radius for a rounded appearance */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center; /* Center the text */
+}
+
+.radio.color1 {
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border: 2px solid #007bff; /* Button border color */
+}
+
+    /* Style the custom radio button when checked */
+    .custom-radio input:checked + .custom-radio {
+        background-color: #0056b3; /* Adjust color when checked */
+        border-color: #0056b3; /* Adjust border color when checked */
+    }
+
+.disabled {
+    pointer-events: none; /* Disable pointer events on the div and its contents */
+    opacity: 0.5; /* Optionally, reduce opacity to visually indicate it's disabled */
+}

@@ -1,88 +1,82 @@
 ﻿@model EventModel
 @{
-    ViewData["Title"] = "Create new Match";
+    ViewData["Title"] = "Match";
     Layout = "~/Views/Shared/_Layout_Player.cshtml";
 }
-<h1 style="text-align: center;">@ViewData["Title"]</h1>
+<script src="~/js/match.js"></script>
+<div class="container">
+    <h1 style="text-align: center; color: white;">@ViewData["Title"]</h1>
+</div>
+
 
 
 <div class="container-fluid pt-3">
-    <div class="container bg-white">
-        <div>
-            <div class="mb-3 mt-3">
+    <div class="container bg-darkgreen">
+       <div id="setupMatch">
+        
+            <div class="mb-3 mt-3 p-4" style="color:white;">
                 <form asp-controller="Player" asp-action="ChangeParcour" method="post">
                     <div>
                         <label for="SelectedParcours">Select an option:</label>
                         <select asp-for="SelectedParcours" asp-items="new SelectList(Model.ParcourArr)">
                             <option value="">Select...</option>
                         </select>
+                        <button class="mybtn btn-active" type="submit">Save</button>
                     </div>
-                    <button type="submit">Submit</button>
+                    
+                    <!-- Button trigger modal -->
+                    <button id="matchAddPlayer" type="button" class="mybtn btn-active" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
+                        Add Player
+                    </button>
+                    <button class="mybtn btn-active" onclick="startMatch()" type="submit">Start Match</button> @*should later on allow to use the table and hide all the input form*@
                 </form>
             </div>
-            <div class="container" style="background-color: lightgray; padding: 1rem;">
+       </div>
+
+
+      <div id="matchDiv"class="container" style="background-color: seashell; padding: 1rem;">
                 <table id="matchBoard">
                     @* <thead>New Match</thead> *@
-                    <tr class="col-12">
-                        <th class="col-1">AIM</th>
+                    <tr class="col-12" style="border-bottom: 3px solid seagreen">
+                        <th class="col-1">TARGET</th>
                         @foreach(var player in Model.PlayerList)
                         {
-                            <th class="col" style="text-align: center;">
+                            <th class="col" style="text-align: center;" >
                                 @player
                             </th>
                         }
                     </tr>
-               
+                    
+
+                
                     @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
                     {
                     <tr>
                             <td class="col-1">@cols</td>
                             @foreach (var player in Model.PlayerList)
                             {
-                                <td>
+                                <td style="text-align: center;" onclick="openPointModal('@cols')" id="@cols">
                                                                
                                 </td>
                             }
                     </tr>
                     }
+                    <tr class="col-12" style="border-top: 3px solid seagreen">
+                        <th class="col-1">SUM</th>
+                        @foreach (var player in Model.PlayerList)
+                        {
+                            <th class="col" style="text-align: center;">
+                                
+                            </th>
+                        }
+                    </tr>
 
                 </table>
             </div>
-            @* 
-               
-            
-            <div class="pt-3 pb-3">
-            @if (Model.CountTypeValue == EventModel.CountType.PfeilWertung2)
-            {
-            <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
-            <thead>
-            <tr>
-            <th style="border: 1px solid #000; padding: 8px;">ID</th>
-            <th style="border: 1px solid #000; padding: 8px;">Name</th>
-            <th style="border: 1px solid #000; padding: 8px;">Location</th>
-            <th style="border: 1px solid #000; padding: 8px;">CountAnimals</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var tmpPlayer in ArcheryProject.Models.EventModel.tmpPlayerList)
-            {
+         </div>
 
-            }
-            </tbody>
-            </table>
-            }
-            else
-            {
-
-            }
-
-            </div> *@
-                    <!-- Button trigger modal -->
-                    <button id="matchAddPlayer" type="button" class="btn btn-seashell" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
-                        Add Player
-                    </button>
-
-                    <!-- Modal -->
+<!-- Modal -->
+            <div>
                     <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -91,9 +85,6 @@
                             {
                                 <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
                             }
-
-                     
-                                  
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -124,8 +115,76 @@
                     </div>
                 </div>
                 <button id="matchStart" class="btn btn-seashell">Start</button>
+          </div>
+
+
+
+<!-- Modal For Point Input-->
+<div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter your points:</h5>
             </div>
+            <div class="modal-body">
+                <h3 id="modalTitle">Points</h3>
+                <div id="arrowPoints">
+                    <div class="row col-12">
+                        <div class="col">
+                            Arrow 1:
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age1" name="A1" value="20">
+                            <label "for=" a11">20</label>
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age2" name="A1" value="18">
+                            <label for="a12">18</label>
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age3" name="A1" value="16">
+                            <label for="a13">16</label><br>
+                        </div>
 
+                        <div class="col">
+                            Arrow 2:
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age1" name="A2" value="20">
+                            <label "for=" a21">20</label>
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age2" name="A1" value="18">
+                            <label for="a22">18</label>
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age3" name="A2" value="16">
+                            <label for="a23">16</label><br>
+                        </div>
+
+                        <div class="col">
+                            Arrow 3:
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age1" name="A3" value="20">
+                            <label "for=" a31">20</label>
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age2" name="A3" value="18">
+                            <label for="a32">18</label>
+                        </div>
+                        <div class="col-3 custom-radio radio.color1">
+                            <input type="radio" id="age3" name="A3" value="16">
+                            <label for="a33">16</label><br>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="modalSave()" class="mybtn">Save</button>
+                <button onclick="closeModal()" class="mybtn">Close</button>
+            </div>
         </div>
-
-
+    </div>
+</div>

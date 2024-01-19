@@ -29,20 +29,26 @@ namespace ArcheryProject.Controllers
         [HttpGet]
         public IActionResult Play(EventModel match)
         {
+
+            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+            if (player == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             Parcour[] ParcourArray = dbCtx.Parcours.ToArray();
             match.ParcourArr = new string[ParcourArray.Length];
-            for(var pos = 0; pos < ParcourArray.Length; pos++)
+            for (var pos = 0; pos < ParcourArray.Length; pos++)
             {
                 Parcour tmpP = ParcourArray[pos];
                 match.ParcourArr[pos] = tmpP.Name;
             }
-          
 
-            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
-           
+
+
             if (match.PlayerListArr == null)
             {
-                
+
                 if (player.Nickname != null)
                 {
                     match.PlayerList.Add(player.Nickname);
@@ -52,27 +58,33 @@ namespace ArcheryProject.Controllers
                     match.PlayerList.Add(player.Email);
                 }
                 match.LoggedIn.Add(true);
-                //match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.ParcourArr[0]).FirstOrDefault();
+
             }
-            if(match.PlayerListArr != null)
+            if (match.PlayerListArr != null)
             {
                 foreach (var entry in match.PlayerListArr)
                 {
                     match.PlayerList.Add(entry);
                 }
-                //match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
             }
-            match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.ParcourArr[0]).FirstOrDefault();
+            if (match.SelectedParcours == null)
+            {
+                match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.ParcourArr[0]).FirstOrDefault();
+            }
+            else
+            {
+                match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
+            }
+
             return View(match);
         }
 
-        //[HttpPost]
-        //public IActionResult ChangeParcour(EventModel match)
-        //{
-
-        //    match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
-        //    return RedirectToAction("Play", "Player", match);
-        //}
+        [HttpPost]
+        public IActionResult ChangeParcour(EventModel match)
+        {
+            match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
+            return RedirectToAction("Play", "Player", match);
+        }
 
         public IActionResult Logout()
         {
