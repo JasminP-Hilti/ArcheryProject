@@ -52,7 +52,7 @@
 
 
       <div id="matchDiv" class="container" style="background-color: seashell; padding: 1rem;">
-            <table id="matchBoard" class="col-12">
+                <table id="matchBoard" class="col-12">
                    
                     <tr class="col-12" style="border-bottom: 3px solid seagreen">
                         <th class="col-1">TARGET</th>
@@ -71,9 +71,9 @@
                             <td class="col-1">@cols</td>
                             @foreach (var player in Model.PlayerList)
                             {
-                                <td style="text-align: center;" onclick="openPointModal('@cols')" id="@cols">
+                            <td style="text-align: center;" onclick="openPointModal('@cols')" id="@cols" onchange="sumColumns(this)">
                                                                
-                                </td>
+                            </td>
                             }
                     </tr>
                     }
@@ -81,7 +81,7 @@
                         <th class="col-1">SUM</th>
                         @foreach (var player in Model.PlayerList)
                         {
-                            <th class="col" style="text-align: center;">
+                            <th class="col pb-2" style="text-align: center;">
                                 
                             </th>
                         }
@@ -137,69 +137,95 @@
 
 <!-- Modal For Point Input-->
 <div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Enter your points:</h5>
             </div>
             <div class="modal-body">
-                <h3 id="modalTitle">Points</h3>
+                @*<h3 id="modalTitle">Points</h3>*@
                 <div id="arrowPoints">
-                    <div class="row col-12">
-                        <div class="col">
+                    <div class="row col-12 pb-3" >
+                        <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
                             Arrow 1:
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
+                        <div class="col-2 custom-radio radiocolor1">
                             <input type="radio" id="age1" name="A1" value="20">
-                            <label "for=" a11">20</label>
+                            <label for="a11">20</label>
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
+                        <div class="col-2 custom-radio radiocolor2">
                             <input type="radio" id="age2" name="A1" value="18">
                             <label for="a12">18</label>
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
+                        <div class="col-2 custom-radio radiocolor3">
                             <input type="radio" id="age3" name="A1" value="16">
                             <label for="a13">16</label><br>
                         </div>
-
-                        <div class="col">
+                        <div class="col-3 custom-radio radiocolor4">
+                            <input type="radio" id="age3" name="A1" value="0">
+                            <label for="a14">missed</label><br>
+                        </div>
+                    </div>
+                    <div class="row col-12 pb-3">
+                        <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
                             Arrow 2:
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
-                            <input type="radio" id="age1" name="A2" value="20">
-                            <label "for=" a21">20</label>
+                        <div class="col-2 custom-radio radiocolor1">
+                            <input type="radio" id="age1" name="A1" value="14">
+                            <label for="a21">14</label>
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
-                            <input type="radio" id="age2" name="A1" value="18">
-                            <label for="a22">18</label>
+                    <div class="col-2 custom-radio radiocolor2">
+                            <input type="radio" id="age2" name="A2" value="12">
+                            <label for="a22">12</label>
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
-                            <input type="radio" id="age3" name="A2" value="16">
-                            <label for="a23">16</label><br>
+                    <div class="col-2 custom-radio radiocolor3">
+                            <input type="radio" id="age3" name="A2" value="10">
+                            <label for="a23">10</label><br>
                         </div>
-
-                        <div class="col">
+                    <div class="col-3 custom-radio radiocolor4">
+                        <input type="radio" id="age3" name="A2" value="0">
+                        <label for="a24">missed</label><br>
+                    </div>
+                </div>
+                    <div class="row col-12 pb-3">
+                        <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
                             Arrow 3:
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
-                            <input type="radio" id="age1" name="A3" value="20">
-                            <label "for=" a31">20</label>
+                    <div class="col-2 custom-radio radiocolor1">
+                            <input type="radio" id="age1" name="A3" value="8">
+                            <label style="padding: 0.5rem 1.3rem;" for="a31"> 8</label>
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
-                            <input type="radio" id="age2" name="A3" value="18">
-                            <label for="a32">18</label>
+                    <div class="col-2 custom-radio radiocolor2">
+                            <input type="radio" id="age2" name="A3" value="6">
+                            <label style="padding: 0.5rem 1.3rem;" for="a32"> 6</label>
                         </div>
-                        <div class="col-3 custom-radio radio.color1">
-                            <input type="radio" id="age3" name="A3" value="16">
-                            <label for="a33">16</label><br>
+                    <div class="col-2 custom-radio radiocolor3">
+                            <input type="radio" id="age3" name="A3" value="4">
+                            <label style="padding: 0.5rem 1.3rem;" for="a33"> 4</label><br>
                         </div>
+                <div class="col-3 custom-radio radiocolor4">
+                    <input type="radio" id="age3" name="A3" value="0">
+                    <label for="a34">missed</label><br>
+                </div>
+            </div>
 
                     </div>
                 </div>
+           
+            <div class="modal-footer col-lg-12 align-content-center">
+                <div class="col-4">
+                    <button style="padding: 1rem; font-size: 1.5rem; margin-left: 5rem;" onclick="closeModal()" class="mybtn">Close</button>
+                    
+                </div>
+                <div class="col">
+
+                </div >
+                <div class="col-4">
+                    <button style="padding: 1rem; font-size: 1.5rem; " onclick="modalSave()" class="mybtn">Save</button>
+                </div>
+                
             </div>
-            <div class="modal-footer">
-                <button onclick="modalSave()" class="mybtn">Save</button>
-                <button onclick="closeModal()" class="mybtn">Close</button>
             </div>
         </div>
     </div>

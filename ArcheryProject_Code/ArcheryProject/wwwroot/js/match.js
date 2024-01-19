@@ -26,12 +26,17 @@ function closeModal() {
     $('#pointsModal').modal('hide');
 }
 
-function modalSave() {
+function modalSave(event) {
     // Get the selected values for each arrow
-    const arrow1 = getSelectedValue('A1');
-    const arrow2 = getSelectedValue('A2');
-    const arrow3 = getSelectedValue('A3');
+    const arrow1 = parseInt(getSelectedValue('A1')) || 0;
+    const arrow2 = parseInt(getSelectedValue('A2')) || 0;
+    const arrow3 = parseInt(getSelectedValue('A3')) || 0;
 
+    const sum = arrow1 + arrow2 + arrow3;
+
+    // Update the content of the clicked element with the sum
+    var element = event.target;
+    element.innerHTML = sum;
 
     // Close the modal after processing the button click
     closeModal();
@@ -60,7 +65,33 @@ function startMatch() {
 
 
 
+function sumColumns() {
+    // Get the table by ID
+    var table = document.getElementById('matchTable');
 
+    // Initialize an array to store the column sums
+    var columnSums = [];
+
+    // Loop through each column, excluding the first column
+    for (var i = 1; i < table.rows[0].cells.length; i++) {
+        // Initialize the sum for each column
+        var sum = 0;
+
+        // Loop through each row and accumulate the values in the current column
+        for (var j = 0; j < table.rows.length; j++) {
+            var cellValue = parseInt(table.rows[j].cells[i].innerHTML) || 0; // Parse cell content as integer
+            sum += cellValue;
+        }
+
+        // Add the sum to the array
+        columnSums.push(sum);
+    }
+
+    // Update the last cell in each column with the calculated sum
+    for (var i = 1; i < table.rows[0].cells.length; i++) {
+        table.rows[table.rows.length - 1].cells[i].innerHTML = columnSums[i - 1];
+    }
+}
 
 
 

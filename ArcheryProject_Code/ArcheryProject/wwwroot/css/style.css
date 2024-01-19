@@ -103,37 +103,58 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 */
-
-/* Hide the default radio button */
-input[type="radio"] {
-    display: none;
-}
-
-/* Style the custom radio button container */
-.custom-radio {
-    display: inline-block;
-    cursor: pointer;
-    padding: 0.5rem;
-    margin: 0.25rem; /* Adjust padding as needed */
-
-    border-radius: 5px; /* Border radius for a rounded appearance */
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-align: center; /* Center the text */
-}
-
-.radio.color1 {
-    background-color: #007bff; /* Button background color */
-    color: #fff; /* Button text color */
-    border: 2px solid #007bff; /* Button border color */
-}
-
-    /* Style the custom radio button when checked */
-    .custom-radio input:checked + .custom-radio {
-        background-color: #0056b3; /* Adjust color when checked */
-        border-color: #0056b3; /* Adjust border color when checked */
-    }
-
 .disabled {
     pointer-events: none; /* Disable pointer events on the div and its contents */
     opacity: 0.5; /* Optionally, reduce opacity to visually indicate it's disabled */
 }
+
+.custom-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .custom-radio input[type="radio"] {
+        display: none; /* Hide the actual radio button */
+    }
+
+    .custom-radio label {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 20rem;
+        margin-right: 5px;
+        font-size: 1.5rem;
+    }
+
+.radiocolor1 label{
+    background-color: green;
+    border: 1px solid darkgreen;
+    color: white;
+    font-weight: 500;
+    
+}
+
+.radiocolor2 label {
+    background-color: rgb(229, 155, 38);
+    border: 1px solid rgb(213, 88, 4);
+    color: white;
+    font-weight: 500;
+}
+.radiocolor3 label {
+    background-color: darkred;
+    border: 1px solid #ccc;
+    color: white;
+    font-weight: 500;
+}
+.radiocolor4 label {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    color: black;
+    font-weight: 500;
+}
+    /*.custom-radio radio.color1 input[type="radio"]:checked + label {
+        background-color: #007bff;
+        color: #fff;
+    }*/
+
