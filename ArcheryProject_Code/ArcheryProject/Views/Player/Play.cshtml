@@ -15,19 +15,22 @@
        <div id="setupMatch">
         
             <div class=" p-4" style="color:white; border: dashed 1px seashell; border-radius: 15px;">
+                <div style="text-align: center" class="pb-3">
+                    <i>First choose your parcour option then add other players! </i>
+                </div>
                 <form asp-controller="Player" asp-action="ChangeParcour" method="post">
                     <div class="row" style="align-items: center;">
-                        <div class="col-3">
+                        <div class="col-4">
                             <label for="SelectedParcours">Select an option:</label>
                             <select asp-for="SelectedParcours" asp-items="new SelectList(Model.ParcourArr)">
                                 <option value="">Select...</option>
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                             <button class="mybtn btn-active" type="submit">Update</button>
                         </div>
                         <div class="col">
-                            <i>First choose your parcour option then add other players! </i>
+                           
                         </div>
                         
                         <div class="col-2">
@@ -72,7 +75,7 @@
                             <td class="col-1">@cols</td>
                             @foreach (var player in Model.PlayerList)
                             {
-                            <td style="text-align: center;" onclick="openPointModal('@player@cols')" id="@player@cols" onchange="sumColumns(this)">
+                            <td style="text-align: center; min-width: 3rem;" onclick="openPointModal('@player@cols')" id="@player@cols" onchange="sumColumns(this)">
                                                                
                             </td>
                             }
@@ -102,6 +105,11 @@
                             {
                                 <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
                             }
+                             @foreach (var tmpLog in Model.PlayerIsLoggedIn)
+                            {
+                                <input type="hidden" name="PlayerIsLoggedIn[]" value="@tmpLog" />
+                            }
+
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -189,7 +197,7 @@
                         <label for="a24">missed</label><br>
                     </div>
                 </div>
-                    <div class="row col-12 pb-3">
+                <div class="row col-12 pb-3">
                         <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
                             Arrow 3:
                         </div>
@@ -230,4 +238,4 @@
             </div>
         </div>
     </div>
-</div>
+

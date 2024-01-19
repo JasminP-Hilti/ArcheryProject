@@ -62,10 +62,14 @@ namespace ArcheryProject.Models
             set;
         }
 
+        public string[]? PlayerIsLoggedIn
+        {
+            get;
+            set;
+        }
 
         public List<string> PlayerList = new List<string> { };
 
-        public List<bool> LoggedIn = new List<bool>();
 
         public List<int> Points = new List<int> { };
 

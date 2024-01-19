@@ -57,7 +57,8 @@ namespace ArcheryProject.Controllers
                 {
                     match.PlayerList.Add(player.Email);
                 }
-                match.LoggedIn.Add(true);
+                string[] tempLog = new string[] { "true" };
+                match.PlayerIsLoggedIn = tempLog;
 
             }
             if (match.PlayerListArr != null)

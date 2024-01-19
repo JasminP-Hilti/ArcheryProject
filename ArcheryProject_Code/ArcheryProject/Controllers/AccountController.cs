@@ -407,7 +407,15 @@ namespace ArcheryProject.Controllers
 
                 match.PlayerListArr = tmparray;
 
-                //match.LoggedIn.Add(true);
+                //loggin status
+                string[] tmpLog = new string[match.PlayerIsLoggedIn.Length + 1];
+
+                for (var pos = 0; pos < match.PlayerIsLoggedIn.Length; pos++)
+                {
+                    tmpLog[pos] = match.PlayerIsLoggedIn[pos];
+                }
+                tmpLog[match.PlayerIsLoggedIn.Length] = "true";
+                match.PlayerIsLoggedIn = tmpLog;
             }
             else if (password == "")
             {
@@ -418,12 +426,33 @@ namespace ArcheryProject.Controllers
                     tmparray[pos] = match.PlayerListArr[pos];
                 }
                 tmparray[match.PlayerListArr.Length] = usernameOrEmail;
-                // match.PlayerListArr.Append(usernameOrEmail);
 
-                //  match.PlayerList.Add(usernameOrEmail);
-                // match.LoggedIn.Add(false);
+                match.PlayerListArr = tmparray;
 
-                match.PlayerListArr = tmparray; 
+                //loggin status
+                string[] tmpLog = new string[match.PlayerIsLoggedIn.Length + 1];
+                var count = match.PlayerIsLoggedIn.Length;
+                for (var pos = 0; pos < match.PlayerIsLoggedIn.Length; pos++)
+                {
+                    tmpLog[pos] = match.PlayerIsLoggedIn[pos];
+                }
+                tmpLog[match.PlayerIsLoggedIn.Length] = "false";
+                match.PlayerIsLoggedIn = tmpLog;
+            }
+            else
+            {
+                string[] tmparray = new string[match.PlayerListArr.Length + 1];
+                for (var pos = 0; pos < match.PlayerListArr.Length; pos++)
+                {
+                    tmparray[pos] = match.PlayerListArr[pos];
+                }
+                match.PlayerListArr = tmparray;
+                string[] tmpLog = new string[match.PlayerIsLoggedIn.Length + 1];
+                for (var pos = 0; pos < match.PlayerIsLoggedIn.Length; pos++)
+                {
+                    tmpLog[pos] = match.PlayerIsLoggedIn[pos];
+                }
+                match.PlayerIsLoggedIn = tmpLog;
             }
            
             return RedirectToAction("Play", "Player", match);
