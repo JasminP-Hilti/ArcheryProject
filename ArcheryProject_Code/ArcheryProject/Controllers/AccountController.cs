@@ -349,7 +349,7 @@ namespace ArcheryProject.Controllers
         //PLAY
         ////////////////////////////////////////////////////
 
-
+        [HttpPost]
         public IActionResult AddPlayerToEvent(EventModel match)
         {
             string usernameOrEmail = "";
@@ -366,17 +366,36 @@ namespace ArcheryProject.Controllers
 
             if (LoginSuccessByEmail(usernameOrEmail, password) == true || LoginSuccessByUsername(usernameOrEmail, password) == true)
             {
-                match.PlayerList.Add(usernameOrEmail);
-                match.LoggedIn.Add(true);
+                string[] tmparray = new string[match.PlayerListArr.Length + 1];
+
+                for (var pos = 0; pos < match.PlayerListArr.Length; pos++)
+                {
+                    tmparray[pos] = match.PlayerListArr[pos];
+                }
+                tmparray[match.PlayerListArr.Length] = usernameOrEmail;
+
+                match.PlayerListArr = tmparray;
+
+                //match.LoggedIn.Add(true);
             }
-            else if (usernameOrEmail == "")
+            else if (password == "")
             {
-                match.PlayerList.Add(usernameOrEmail);
-                match.LoggedIn.Add(false);
+                string[] tmparray = new string[match.PlayerListArr.Length+1];
+               
+                for (var pos = 0; pos <match.PlayerListArr.Length; pos++)
+                {
+                    tmparray[pos] = match.PlayerListArr[pos];
+                }
+                tmparray[match.PlayerListArr.Length] = usernameOrEmail;
+                // match.PlayerListArr.Append(usernameOrEmail);
+
+                //  match.PlayerList.Add(usernameOrEmail);
+                // match.LoggedIn.Add(false);
+
+                match.PlayerListArr = tmparray; 
             }
-            //get firstuser from match check if isAdmin  and return to correct controller
-            //player:
-            return RedirectToAction("PlaySetup", "Player", match);
+           
+            return RedirectToAction("Play", "Player", match);
 
         }
     }

@@ -10,10 +10,10 @@
     <div class="container bg-white">
         <div>
             <div class="mb-3 mt-3">
-                <form asp-controller="Player" asp-action="PlaySetup" method="post">
+                <form asp-controller="Player" asp-action="ChangeParcour" method="post">
                     <div>
                         <label for="SelectedParcours">Select an option:</label>
-                        <select asp-for="SelectedParcours" asp-items="new SelectList(Model.AvailableParcours)">
+                        <select asp-for="SelectedParcours" asp-items="new SelectList(Model.ParcourArr)">
                             <option value="">Select...</option>
                         </select>
                     </div>
@@ -86,7 +86,14 @@
                     <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                        <form asp-controller="Account" asp-action="AddPlayerToEvent">
+                        <form asp-controller="Account" asp-action="AddPlayerToEvent" method="post">
+                             @foreach(var tmpPlayer in Model.PlayerList)
+                            {
+                                <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
+                            }
+
+                     
+                                  
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

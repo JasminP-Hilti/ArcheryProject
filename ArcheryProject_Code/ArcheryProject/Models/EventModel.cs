@@ -10,14 +10,14 @@ namespace ArcheryProject.Models
         /// //////////////////////////////////////////////////////////////////////////////
         /// </summary>
         /// 
-       
+
         public List<Parcour> AvailableParcours = new List<Parcour> { };
 
         public string SelectedParcours { get; set; }
 
         public string? Name { get; set; }
 
-        public static Dictionary<CountType, string> countTypeNames =  new Dictionary<CountType, string>
+        public static Dictionary<CountType, string> countTypeNames = new Dictionary<CountType, string>
         {
             { CountType.PfeilWertung3, "PfeilWertung3" },
             { CountType.PfeilWertung2, "PfeilWertung2" }
@@ -36,7 +36,7 @@ namespace ArcheryProject.Models
         /// <summary>
         /// ////////////////////////////////////////////////////////////////////////////
         /// </summary>
-        
+
         [Display(Name = "Username/Email")]
         [Required(ErrorMessage = "Required")]
         public string? ModalLoginName { get; set; }
@@ -49,8 +49,19 @@ namespace ArcheryProject.Models
 
         public Parcour? Parcours { get; set; }  //id & anzahl ziele = spalten
 
-
+        public string[]? ParcourArr
+        {
+            get;
+            set;
+        }
         //
+
+        public string[]? PlayerListArr
+        {
+            get;
+            set;
+        }
+
 
         public List<string> PlayerList = new List<string> { };
 

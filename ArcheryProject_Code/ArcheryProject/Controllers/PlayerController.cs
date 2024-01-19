@@ -10,6 +10,8 @@ namespace ArcheryProject.Controllers
         private readonly ILogger<PlayerController> _logger;
         public List<PlayerModel> tmpPlayers = new List<PlayerModel>();
 
+
+
         public PlayerController(ILogger<PlayerController> logger, ArtaimusContext dbCtx)
         {
             _logger = logger;
@@ -27,11 +29,20 @@ namespace ArcheryProject.Controllers
         [HttpGet]
         public IActionResult Play(EventModel match)
         {
+            Parcour[] ParcourArray = dbCtx.Parcours.ToArray();
+            match.ParcourArr = new string[ParcourArray.Length];
+            for(var pos = 0; pos < ParcourArray.Length; pos++)
+            {
+                Parcour tmpP = ParcourArray[pos];
+                match.ParcourArr[pos] = tmpP.Name;
+            }
+          
 
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
-            if (match.PlayerList.Count == 0)
+           
+            if (match.PlayerListArr == null)
             {
-                match = new EventModel();
+                
                 if (player.Nickname != null)
                 {
                     match.PlayerList.Add(player.Nickname);
@@ -41,22 +52,27 @@ namespace ArcheryProject.Controllers
                     match.PlayerList.Add(player.Email);
                 }
                 match.LoggedIn.Add(true);
-                List<Parcour> ParcourList = dbCtx.Parcours.ToList();
-                match.Parcours = ParcourList[1];
-                match.Name = "New Game";
+                //match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.ParcourArr[0]).FirstOrDefault();
             }
-
+            if(match.PlayerListArr != null)
+            {
+                foreach (var entry in match.PlayerListArr)
+                {
+                    match.PlayerList.Add(entry);
+                }
+                //match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
+            }
+            match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.ParcourArr[0]).FirstOrDefault();
             return View(match);
         }
 
+        //[HttpPost]
+        //public IActionResult ChangeParcour(EventModel match)
+        //{
 
-        [HttpPost]
-        public IActionResult PlaySetup(EventModel match, bool loggedIn)
-        {
-            return RedirectToAction("Play", "Player", match);
-        }
-
-
+        //    match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
+        //    return RedirectToAction("Play", "Player", match);
+        //}
 
         public IActionResult Logout()
         {
