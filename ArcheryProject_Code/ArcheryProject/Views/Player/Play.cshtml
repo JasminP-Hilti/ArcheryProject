@@ -11,32 +11,49 @@
 
 
 <div class="container-fluid pt-3">
-    <div class="container bg-darkgreen">
+    <div class="container bg-darkgreen pt-3 pb-3">
        <div id="setupMatch">
         
-            <div class="mb-3 mt-3 p-4" style="color:white;">
+            <div class=" p-4" style="color:white; border: dashed 1px seashell; border-radius: 15px;">
                 <form asp-controller="Player" asp-action="ChangeParcour" method="post">
-                    <div>
-                        <label for="SelectedParcours">Select an option:</label>
-                        <select asp-for="SelectedParcours" asp-items="new SelectList(Model.ParcourArr)">
-                            <option value="">Select...</option>
-                        </select>
-                        <button class="mybtn btn-active" type="submit">Save</button>
+                    <div class="row" style="align-items: center;">
+                        <div class="col-3">
+                            <label for="SelectedParcours">Select an option:</label>
+                            <select asp-for="SelectedParcours" asp-items="new SelectList(Model.ParcourArr)">
+                                <option value="">Select...</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <button class="mybtn btn-active" type="submit">Update</button>
+                        </div>
+                        <div class="col">
+                            <i>First choose your parcour option then add other players! </i>
+                        </div>
+                        
+                        <div class="col-2">
+                            <!-- Button trigger modal -->
+                            <button id="matchAddPlayer" type="button" class="mybtn btn-active" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
+                                Add Player
+                            </button>
+                        </div>
+                       
                     </div>
                     
-                    <!-- Button trigger modal -->
-                    <button id="matchAddPlayer" type="button" class="mybtn btn-active" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
-                        Add Player
-                    </button>
-                    <button class="mybtn btn-active" onclick="startMatch()" type="submit">Start Match</button> @*should later on allow to use the table and hide all the input form*@
                 </form>
+                
             </div>
-       </div>
+            <div class="col-12 pt-4 pb-4" style="text-align: center;">
+                <button class="mybtn btn-active" style="background: seashell; color:black;" onclick="startMatch()" type="submit">Start Match</button> @*should later on allow to use the table and hide all the input form*@
+            </div>
+            <div class="col-12 pb-4" style="text-align: center;">
+                <p style="text-align: center; color: lightgray; font-size: 3rem; font-weight:100; font-style:italic;">Preview</p>
+            </div>
+        </div>
 
 
-      <div id="matchDiv"class="container" style="background-color: seashell; padding: 1rem;">
-                <table id="matchBoard">
-                    @* <thead>New Match</thead> *@
+      <div id="matchDiv" class="container" style="background-color: seashell; padding: 1rem;">
+            <table id="matchBoard" class="col-12">
+                   
                     <tr class="col-12" style="border-bottom: 3px solid seagreen">
                         <th class="col-1">TARGET</th>
                         @foreach(var player in Model.PlayerList)
@@ -47,7 +64,6 @@
                         }
                     </tr>
                     
-
                 
                     @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
                     {
@@ -114,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-                <button id="matchStart" class="btn btn-seashell">Start</button>
+                
           </div>
 
 
