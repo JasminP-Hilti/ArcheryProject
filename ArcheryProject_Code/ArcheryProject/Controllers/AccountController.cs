@@ -35,7 +35,8 @@ namespace ArcheryProject.Controllers
 
         public IActionResult RegisterLanding()
         {
-            return View();
+            PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
+            return View(player);
         }
 
 
@@ -268,7 +269,28 @@ namespace ArcheryProject.Controllers
                     };
                     dbCtx.Players.Add(tmpDBPlayer);
                     dbCtx.SaveChanges();
+                    PlayerModel player = GetPlayer(register.registerEmail);
+                    
+                    if (player.Nickname == null)
+                    {
+                        ApiHelper.SetUser(player.Email, player);
+                        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UsernameOrEmail")))
+                        {
+                            HttpContext.Session.SetString("UsernameOrEmail", tmpDBLogin.Email);
+                        }
+                    }
+                    else
+                    {
+                        ApiHelper.SetUser(player.Nickname, player);
+                        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UsernameOrEmail")))
+                        {
+                            HttpContext.Session.SetString("UsernameOrEmail", tmpDBPlayer.Nickname);
+                        }
+                    }
+                    
+                    
                 }
+                
                 return RedirectToAction("RegisterLanding");
             }
             TempData["OpenModalRegisterFailed"] = true;
@@ -298,10 +320,19 @@ namespace ArcheryProject.Controllers
             {
                 if (password != null)
                 {
-                    if (password.Any(c => char.IsDigit(c) == true && char.IsSymbol(c) == true && c != '@') && password.Length >= 6)
-                    {
-                        passwordIsValid = true;
+                    if (password.Any(c => char.IsDigit(c) == true)){
+                        if (password.Any(c => char.IsSymbol(c) == false)){
+                            if(password.Any(c => c == '@') == false) {
+                                if (password.Length >= 6)
+                                {
+                                    passwordIsValid = true;
+                                }
+                            }
+                            
+                        }
                     }
+           
+                    
                 }
             }
             //username is available / unique
