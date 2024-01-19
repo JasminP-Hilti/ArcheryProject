@@ -16,6 +16,10 @@ function openPointModal(id) {
     // Show the modal using Bootstrap's modal method
     $('#pointsModal').modal('show');
 
+    // Pass the id to modalSave function
+    document.getElementById('saveButton').onclick = function () {
+        modalSave(id);
+    };
     //let element = document.getElementById(id);
     //if (element) {
     //    element.innerHTML = "clicked";
@@ -26,7 +30,18 @@ function closeModal() {
     $('#pointsModal').modal('hide');
 }
 
-function modalSave(event) {
+function getSelectedValue(name) {
+    var radios = document.getElementsByName(name);
+
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            return radios[i].value;
+        }
+    }
+
+    return null; // Return null if no radio button is selected
+}
+function modalSave(id) {
     // Get the selected values for each arrow
     const arrow1 = parseInt(getSelectedValue('A1')) || 0;
     const arrow2 = parseInt(getSelectedValue('A2')) || 0;
@@ -35,7 +50,7 @@ function modalSave(event) {
     const sum = arrow1 + arrow2 + arrow3;
 
     // Update the content of the clicked element with the sum
-    var element = event.target;
+    var element = document.getElementById(id);
     element.innerHTML = sum;
 
     // Close the modal after processing the button click
@@ -97,33 +112,4 @@ function sumColumns() {
 
 
 
-
-
-
-
-
-
-
-function switchForm(event) {
-    const clickedButton = event.target;
-    console.log(clickedButton.id)
-    if (clickedButton.classList.contains("btn-inactive") == true) {
-        let activeButton = clickedButton.id === 'loginButton' ? document.getElementById("registerButton") : document.getElementById("loginButton");
-
-        activeButton.classList.remove("btn-active");
-        activeButton.classList.add("btn-inactive");
-
-        clickedButton.classList.remove("btn-inactive");
-        clickedButton.classList.add("btn-active");
-
-        const showFormId = clickedButton.id === 'loginButton' ? 'loginForm' : 'registerForm';
-        const hideFormId = clickedButton.id === 'loginButton' ? 'registerForm' : 'loginForm';
-        showForm(showFormId, hideFormId);
-    }
-}
-function showForm(showId, hideId) {
-    console.log("show " + showId + "hide " + hideId);
-    document.getElementById(showId).style.display = 'block';
-    document.getElementById(hideId).style.display = 'none';
-}
 

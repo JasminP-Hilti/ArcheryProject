@@ -153,8 +153,38 @@
     color: black;
     font-weight: 500;
 }
-    /*.custom-radio radio.color1 input[type="radio"]:checked + label {
-        background-color: #007bff;
-        color: #fff;
-    }*/
 
+.custom-radio input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+/*checked*/
+/* Checked state styles for radiocolor1 */
+.radiocolor1 input[type="radio"]:checked + label {
+    background-color: darkgreen;
+    border: 1px solid green;
+    color: black;
+}
+
+/* Checked state styles for radiocolor2 */
+.radiocolor2 input[type="radio"]:checked + label {
+    background-color: rgb(213, 88, 4);
+    border: 1px solid rgb(229, 155, 38);
+    color: black;
+}
+
+/* Checked state styles for radiocolor3 */
+.radiocolor3 input[type="radio"]:checked + label {
+    background-color: #b30000;
+    border: 1px solid darkred;
+    color: black;
+}
+
+/* Checked state styles for radiocolor4 */
+.radiocolor4 input[type="radio"]:checked + label {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    color: black;
+}
