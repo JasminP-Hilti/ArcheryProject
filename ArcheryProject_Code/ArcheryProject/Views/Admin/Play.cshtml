@@ -1,94 +1,269 @@
-﻿@model ParcourModel
-
+﻿@model EventModel
 @{
-    ViewData["Title"] = "Create new Match";
+    ViewData["Title"] = "Match";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
-    @* string matchType = Request["matchType"]; *@
 }
 
-<h1 style="text-align: center;">@ViewData["Title"]</h1>
+<script>
+    var playerList = @Html.Raw(Json.Serialize(Model.PlayerList));
+</script>
+
+<script src="~/js/match.js"></script>
+<div class="container">
+    <h1 style="text-align: center; color: white;">@ViewData["Title"]</h1>
+</div>
+
 
 <div class="container-fluid pt-3">
-    <div class="container bg-white">
-        <div>
-            <div class="mb-3 mt-3">
-                <label asp-for="Id" class="form-label"> Parcours </label>
-                @Html.DropDownListFor(
-                         model => model.Id,
-                         new SelectList(Model.AvailableParcours, "Id", "Name"),
-                         "Wähle einen Parcours",
-                         new { @class = "form-control" }
-                         )
-                <span asp-validation-for="Id" class="text-danger"></span>
+    <div class="container bg-darkgreen pt-3 pb-3">
+        <div id="setupMatch">
+
+            <div class=" p-4" style="color:white; border: dashed 1px seashell; border-radius: 15px;">
+                <div style="text-align: center" class="pb-3">
+                    <i>First choose your parcour option then add other players! </i>
+                </div>
+                <form asp-controller="Player" asp-action="ChangeParcour" method="post">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-4">
+                            <label for="SelectedParcours">Select an option:</label>
+                            <select asp-for="SelectedParcours" asp-items="new SelectList(Model.ParcourArr)">
+                                <option value="">Select...</option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <button class="mybtn btn-active" type="submit">Update</button>
+                        </div>
+                        <div class="col">
+                        </div>
+
+                        <div class="col-2">
+                            <!-- Button trigger modal -->
+                            <button id="matchAddPlayer" type="button" class="mybtn btn-active" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
+                                Add Player
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
             </div>
-            @* <div class="pt-3 pb-3">
-                @if (Model.CountTypeValue == EventModel.CountType.PfeilWertung2)
-                {
-                    <table style="border-collapse: collapse; width: 100%; border: 2px solid #000; background-color: #f0f0f0;">
-                        <thead>
-                            <tr>
-                                <th style="border: 1px solid #000; padding: 8px;">ID</th>
-                                <th style="border: 1px solid #000; padding: 8px;">Name</th>
-                                <th style="border: 1px solid #000; padding: 8px;">Location</th>
-                                <th style="border: 1px solid #000; padding: 8px;">CountAnimals</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var tmpPlayer in ArcheryProject.Models.EventModel.tmpPlayerList)
+            <div class="col-12 pt-4 pb-4" style="text-align: center;">
+                <button class="mybtn btn-active" style="background: seashell; color:black;" onclick="startMatch()" type="submit">Start Match</button> @*should later on allow to use the table and hide all the input form*@
+            </div>
+            <div class="col-12 pb-4" style="text-align: center;">
+                <p style="text-align: center; color: lightgray; font-size: 3rem; font-weight:100; font-style:italic;">Preview</p>
+            </div>
+        </div>
+
+        <form asp-controller="Account" asp-action="SaveMatchData" method="post">
+            <!-- all the information that needs to be sent with this form -->
+            @foreach (var tmpPlayer in Model.PlayerList)
+            {
+                <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
+            }
+            @foreach (var tmpLog in Model.PlayerIsLoggedIn)
+            {
+                <input type="hidden" name="PlayerIsLoggedIn[]" value="@tmpLog" />
+            }
+            @foreach (var player in Model.PlayerList)
+            {
+                <input type="hidden" name="Points[]" id="points-@player" value="0" />
+                // 0-> default if js doesnt work
+            }
+            <input type="hidden" name="ParcourId" value="@Model.ParcourId" />
+
+            <div id="matchDiv" class="container" style="background-color: seashell; padding: 1rem;">
+                <table id="matchBoard" class="col-12">
+
+                    <tr class="col-12" style="border-bottom: 3px solid seagreen">
+                        <th class="col-1">TARGET</th>
+                        @foreach (var player in Model.PlayerList)
+                        {
+                            <th class="col" style="text-align: center;">
+                                @player
+                            </th>
+                        }
+                    </tr>
+
+                    @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
+                    {
+                        <tr>
+                            <td class="col-1">@cols</td>
+                            @foreach (var player in Model.PlayerList)
                             {
-
+                                <td style="text-align: center; min-width: 3rem;" onclick="openPointModal('@player@cols')" id="@player@cols">
+                                    <!-- Add content inside the cell if needed -->
+                                </td>
                             }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
+                        </tr>
+                    }
 
-                }
+                    <tr class="col-12" style="border-top: 3px solid seagreen">
+                        <th class="col-1">SUM</th>
+                        @foreach (var player in Model.PlayerList)
+                        {
+                            <th id="sum-@player" class="col pb-2" style="text-align: center;">
+                                <!-- Display sum here ??? when above the sumColumns is triggered-->
+                            </th>
+                        }
+                    </tr>
 
-            </div> *@
+                </table>
 
-            <!-- Button trigger modal -->
-            <button id="matchAddPlayer" type="button" class="btn btn-seashell" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
-                Add Player
-            </button>
+                <div class="p-5" style="text-align:center;">
+                    <button style="color: white; background-color: #315C2B" type="submit" class="mybtn" id="endMatch">End & Save Match</button>
+                </div>
 
-            <!-- Modal -->
-            <form asp-controller="Admin" asp-action="AddPlayerToPlay" method="post">
-                <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">New Player</h5>4
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+
+        </form>
+
+
+    </div>
+
+    <!-- Modal -->
+    <div>
+        <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-controller="Account" asp-action="AddPlayerToEvent" method="post">
+                        @foreach (var tmpPlayer in Model.PlayerList)
+                        {
+                            <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
+                        }
+                        @foreach (var tmpLog in Model.PlayerIsLoggedIn)
+                        {
+                            <input type="hidden" name="PlayerIsLoggedIn[]" value="@tmpLog" />
+                        }
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-outline mb-4">
+                                <label class="form-label" asp-for="ModalLoginName">Username</label>
+                                <input type="text" id="ModalLoginName" asp-for="ModalLoginName" class="form-control" />
                             </div>
-                            <div class="modal-body">
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="ModalLoginName">Nickname</label>
-                                    <input type="text" id="ModalLoginName" class="form-control" />
-                                </div>
 
-                                <!-- Password input -->
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="ModalLoginPassword">Password</label>
-                                    <input type="password" id="ModalLoginPassword" class="form-control" />
-                                </div>
-                                <div if="modalFeedback" class="">
-                                    <i> Note: If password is left empty, user will be added without connection to account.</i>
-                                </div>
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" asp-for="ModalLoginPassword">Password</label>
+                                <input type="password" id="ModalLoginPassword" asp-for="ModalLoginPassword" class="form-control" />
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button id="modalSaveAddPlayer" type="submit" class="btn btn-primary">Save changes</button>
+                            <div if="modalFeedback" class="">
+                                <i> Note: If password is left empty, user will be added without connection to account.</i>
                             </div>
                         </div>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="modalSaveAddPlayer" type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+
+            </div>
         </div>
-        <button id="matchStart" class="btn btn-seashell">Start</button>
     </div>
 
 </div>
+
+
+
+<!-- Modal For Point Input-->
+<div class="modal fade" id="pointsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter your points:</h5>
+            </div>
+            <div class="modal-body">
+                @*<h3 id="modalTitle">Points</h3>*@
+                <div id="arrowPoints">
+                    <div class="row col-12 pb-3">
+                        <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
+                            Arrow 1:
+                        </div>
+                        <div class="col-2 custom-radio radiocolor1">
+                            <input id="a11" type="radio" name="A1" value="20">
+                            <label for="a11">20</label>
+                        </div>
+                        <div class="col-2 custom-radio radiocolor2">
+                            <input id="a12" type="radio" name="A1" value="18">
+                            <label for="a12">18</label>
+                        </div>
+                        <div class="col-2 custom-radio radiocolor3">
+                            <input id="a13" type="radio" name="A1" value="16">
+                            <label for="a13">16</label><br>
+                        </div>
+                        <div class="col-3 custom-radio radiocolor4">
+                            <input id="a14" type="radio" name="A1" value="0">
+                            <label for="a14">missed</label><br>
+                        </div>
+                    </div>
+                    <div class="row col-12 pb-3">
+                        <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
+                            Arrow 2:
+                        </div>
+                        <div class="col-2 custom-radio radiocolor1">
+                            <input id="a21" type="radio" name="A2" value="14">
+                            <label for="a21">14</label>
+                        </div>
+                        <div class="col-2 custom-radio radiocolor2">
+                            <input id="a22" type="radio" name="A2" value="12">
+                            <label for="a22">12</label>
+                        </div>
+                        <div class="col-2 custom-radio radiocolor3">
+                            <input id="a23" type="radio" name="A2" value="10">
+                            <label for="a23">10</label><br>
+                        </div>
+                        <div class="col-3 custom-radio radiocolor4">
+                            <input id="a24" type="radio" name="A2" value="0">
+                            <label for="a24">missed</label><br>
+                        </div>
+                    </div>
+                    <div class="row col-12 pb-3">
+                        <div class="col-3" style="text-align:center; font-weight:500; font-size: 1.7rem; padding-top: 0.3rem;">
+                            Arrow 3:
+                        </div>
+                        <div class="col-2 custom-radio radiocolor1">
+                            <input id="a31" type="radio" name="A3" value="8">
+                            <label style="padding: 0.5rem 1.3rem;" for="a31"> 8</label>
+                        </div>
+                        <div class="col-2 custom-radio radiocolor2">
+                            <input id="a32" type="radio" name="A3" value="6">
+                            <label style="padding: 0.5rem 1.3rem;" for="a32"> 6</label>
+                        </div>
+                        <div class="col-2 custom-radio radiocolor3">
+                            <input id="a33" type="radio" name="A3" value="4">
+                            <label style="padding: 0.5rem 1.3rem;" for="a33"> 4</label><br>
+                        </div>
+                        <div class="col-3 custom-radio radiocolor4">
+                            <input id="a34" type="radio" name="A3" value="0">
+                            <label for="a34">missed</label><br>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer col-lg-12 align-content-center">
+                <div class="col-4">
+                    <button style="padding: 1rem; font-size: 1.5rem; margin-left: 5rem;" onclick="closeModal()" class="mybtn">Close</button>
+
+                </div>
+                <div class="col">
+                </div>
+                <div class="col-4">
+                    <button style="padding: 1rem; font-size: 1.5rem; " id="saveButton" class="mybtn">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 

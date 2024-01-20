@@ -398,13 +398,24 @@ namespace ArcheryProject.Controllers
 
             if (LoginSuccessByEmail(usernameOrEmail, password) == true || LoginSuccessByUsername(usernameOrEmail, password) == true)
             {
+                PlayerModel playerOne = GetPlayer(usernameOrEmail);
                 string[] tmparray = new string[match.PlayerListArr.Length + 1];
 
                 for (var pos = 0; pos < match.PlayerListArr.Length; pos++)
                 {
                     tmparray[pos] = match.PlayerListArr[pos];
                 }
-                tmparray[match.PlayerListArr.Length] = usernameOrEmail;
+                if(playerOne.Nickname != null)
+                {
+                    tmparray[match.PlayerListArr.Length] = playerOne.Nickname;
+                }
+                else
+                {
+                    var name = playerOne.FirstName + playerOne.LastName[0];
+                    tmparray[match.PlayerListArr.Length] = name;
+                }
+                
+                
 
                 match.PlayerListArr = tmparray;
 
