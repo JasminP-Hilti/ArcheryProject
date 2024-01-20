@@ -3,11 +3,15 @@
     ViewData["Title"] = "Match";
     Layout = "~/Views/Shared/_Layout_Player.cshtml";
 }
+
+<script>
+    var playerList = @Html.Raw(Json.Serialize(Model.PlayerList));
+</script>
+
 <script src="~/js/match.js"></script>
 <div class="container">
     <h1 style="text-align: center; color: white;">@ViewData["Title"]</h1>
 </div>
-
 
 
 <div class="container-fluid pt-3">
@@ -53,47 +57,73 @@
             </div>
         </div>
 
+        <form asp-controller="Account" asp-action="SaveMatchData" method="post">
+            <!-- all the information that needs to be sent with this form -->
+            @foreach (var tmpPlayer in Model.PlayerList)
+            {
+                <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
+            }
+            @foreach (var tmpLog in Model.PlayerIsLoggedIn)
+            {
+                <input type="hidden" name="PlayerIsLoggedIn[]" value="@tmpLog" />
+            }
+            @foreach (var player in Model.PlayerList)
+            {
+                <input type="hidden" name="Points[]" id="points-@player" value="0" />
+                // 0-> default if js doesnt work
+            }
+            <input type="hidden" name="ParcourId" value="@Model.ParcourId" />
 
-      <div id="matchDiv" class="container" style="background-color: seashell; padding: 1rem;">
+            <div id="matchDiv" class="container" style="background-color: seashell; padding: 1rem;">
                 <table id="matchBoard" class="col-12">
-                   
+
                     <tr class="col-12" style="border-bottom: 3px solid seagreen">
                         <th class="col-1">TARGET</th>
-                        @foreach(var player in Model.PlayerList)
+                        @foreach (var player in Model.PlayerList)
                         {
-                            <th class="col" style="text-align: center;" >
+                            <th class="col" style="text-align: center;">
                                 @player
                             </th>
                         }
                     </tr>
 
-                    
                     @for (var cols = 1; cols <= Model.Parcours.CountAnimals; cols++)
                     {
-                    
-                    <tr>
+                        <tr>
                             <td class="col-1">@cols</td>
                             @foreach (var player in Model.PlayerList)
                             {
-                            <td style="text-align: center; min-width: 3rem;" onclick="openPointModal('@player@cols')" id="@player@cols" onchange="sumColumns(this)">
-                                                               
-                            </td>
+                                <td style="text-align: center; min-width: 3rem;" onclick="openPointModal('@player@cols')" id="@player@cols">
+                                    <!-- Add content inside the cell if needed -->
+                                </td>
                             }
-                    </tr>
+                        </tr>
                     }
+
                     <tr class="col-12" style="border-top: 3px solid seagreen">
                         <th class="col-1">SUM</th>
                         @foreach (var player in Model.PlayerList)
                         {
-                            <th class="col pb-2" style="text-align: center;">
-                                
+                            <th id="sum-@player" class="col pb-2" style="text-align: center;">
+                                <!-- Display sum here ??? when above the sumColumns is triggered-->
                             </th>
                         }
                     </tr>
 
                 </table>
+
+                <div class="p-5" style="text-align:center;">
+                    <button style="color: white; background-color: #315C2B" type="submit" class="mybtn" id="endMatch">End & Save Match</button>
+                </div>
+
             </div>
-         </div>
+
+           
+
+        </form>
+        
+
+</div>
 
 <!-- Modal -->
             <div>

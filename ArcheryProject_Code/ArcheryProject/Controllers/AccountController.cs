@@ -1,6 +1,7 @@
 ﻿using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 //Home
 //Login
 
@@ -458,5 +459,48 @@ namespace ArcheryProject.Controllers
             return RedirectToAction("Play", "Player", match);
 
         }
+
+        [HttpPost]
+        public IActionResult SaveMatchData(EventModel match)
+        {
+            //create DB entry for match
+            Event? tmpEvent = new Event
+            {
+                Id = 0, //autoincrement -> last entry of db
+                ParcoursId = match.ParcourId,
+                CountType = 2 //3d system 
+            };
+            dbCtx.Events.Add(tmpEvent);
+            dbCtx.SaveChanges();
+            //get the id of the just added event
+            var eventId = tmpEvent.Id;
+            //iterate over all players and player entry for the match
+            for (var pos = 0; pos < match.PlayerListArr.Count(); pos++)
+            {
+                //check if player is logged in
+                if (match.PlayerIsLoggedIn[pos] == "true")
+                {
+                    var points = match.Points[pos];
+                    PlayerModel player = GetPlayer(match.PlayerListArr[pos]);
+                    EventsHasPlayer tmpEventsHasPlayer = new EventsHasPlayer
+                    {
+                        EventsId = eventId,
+                        PlayersId = player.Id,
+                        PointsTotal = int.Parse(points)
+                    };
+                    dbCtx.EventsHasPlayers.Add(tmpEventsHasPlayer);
+                    dbCtx.SaveChanges();
+                }
+            }
+            //get admin info of player and return correct layout view
+            PlayerModel playerOne = GetPlayer(match.PlayerListArr[0]);
+            if(playerOne.Admin == 1)
+            {
+                return View("AdminMatchSaved");
+            }
+            return View("PlayerMatchSaved");
+           
+        }
+
     }
 }

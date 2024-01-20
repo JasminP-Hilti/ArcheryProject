@@ -49,6 +49,7 @@ namespace ArcheryProject.Models
 
         public Parcour? Parcours { get; set; }  //id & anzahl ziele = spalten
 
+        public int ParcourId { get; set; }//transport 
         public string[]? ParcourArr
         {
             get;
@@ -68,10 +69,15 @@ namespace ArcheryProject.Models
             set;
         }
 
+        public string[]? Points
+        {
+            get;
+            set;
+        }
+
         public List<string> PlayerList = new List<string> { };
 
 
-        public List<int> Points = new List<int> { };
 
 
     }

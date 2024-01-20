@@ -71,10 +71,12 @@ namespace ArcheryProject.Controllers
             if (match.SelectedParcours == null)
             {
                 match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.ParcourArr[0]).FirstOrDefault();
+                match.ParcourId = match.Parcours.Id;
             }
             else
             {
                 match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
+                match.ParcourId = match.Parcours.Id;
             }
 
             return View(match);
@@ -84,6 +86,7 @@ namespace ArcheryProject.Controllers
         public IActionResult ChangeParcour(EventModel match)
         {
             match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
+            match.ParcourId = match.Parcours.Id;
             return RedirectToAction("Play", "Player", match);
         }
 
@@ -145,7 +148,6 @@ namespace ArcheryProject.Controllers
             }
 
             return View(tmpModels);
-
 
 
         }

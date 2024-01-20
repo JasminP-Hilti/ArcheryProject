@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
 });
 
+    
 
 function openPointModal(id) {
     // Show the modal using Bootstrap's modal method
@@ -56,20 +57,12 @@ function modalSave(id) {
     var element = document.getElementById(id);
     element.innerHTML = sum;
 
-    // Close the modal after processing the button click
+   
+  
+
+    sumColumns(id);
     closeModal();
 }
-
-
-
-// Close the modal if the overlay outside the modal is clicked
-window.onclick = function (event) {
-    if (event.target === modal) {
-        closeModal();
-    }
-};
-
-
 
 
 
@@ -82,35 +75,28 @@ function startMatch() {
 }
 
 
-
-function sumColumns() {
-    // Get the table by ID
-    var table = document.getElementById('matchTable');
-
-    // Initialize an array to store the column sums
-    var columnSums = [];
-
-    // Loop through each column, excluding the first column
-    for (var i = 1; i < table.rows[0].cells.length; i++) {
-        // Initialize the sum for each column
-        var sum = 0;
-
-        // Loop through each row and accumulate the values in the current column
-        for (var j = 0; j < table.rows.length; j++) {
-            var cellValue = parseInt(table.rows[j].cells[i].innerHTML) || 0; // Parse cell content as integer
-            sum += cellValue;
-        }
-
-        // Add the sum to the array
-        columnSums.push(sum);
-    }
-
-    // Update the last cell in each column with the calculated sum
-    for (var i = 1; i < table.rows[0].cells.length; i++) {
-        table.rows[table.rows.length - 1].cells[i].innerHTML = columnSums[i - 1];
-    }
+if (typeof window.playerList === 'undefined') {
+    window.playerList = playerList;
 }
 
+function sumColumns(id) {
+    
+    for (var i = 0; i < playerList.length; i++) {
+        var player = playerList[i];
+        var sum = 0;
+        $('[id^="' + player + '"]').each(function () {
+            var value = parseInt($(this).text()) || 0;
+            sum += value;
+        });
+        // Update the sum in the corresponding cell
+        $('#sum-' + player).text(sum);
+
+        // Update the hidden input value for the current player
+        var hiddenInput = document.getElementById('points-' + player);
+        hiddenInput.value = sum;
+    }
+    
+}
 
 
 
