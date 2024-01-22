@@ -11,9 +11,58 @@ document.addEventListener("DOMContentLoaded", () => {
     
 });
 
-    
+
+function unlockOrLockArrows() {
+
+    if (getSelectedRadio("A1") > 0 || getSelectedRadio("A1") == null ){
+        document.getElementById("arrow2").classList.add('disabled');
+        document.getElementById("arrow3").classList.add('disabled');
+        resetRadio("A2");
+        resetRadio("A3");
+    }
+    else{
+        document.getElementById("arrow2").classList.remove('disabled');
+    }
+
+
+    if (getSelectedRadio("A2") > 0 || getSelectedRadio("A2") == null) {
+            document.getElementById("arrow3").classList.add('disabled');
+            resetRadio("A3");
+        }
+        else {
+            document.getElementById("arrow3").classList.remove('disabled');
+        }
+  
+}
+function getSelectedRadio(name) {
+    // Get all radio buttons with the specified name
+    var radioButtons = document.getElementsByName(name);
+
+    // Loop through the radio buttons to find the selected one
+    for (var i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].checked) {
+            // Return the value of the selected radio button
+            
+            return radioButtons[i].value;
+        }
+    }
+
+    // If no radio button is selected
+    return null;
+}
+function resetRadio(name) {
+    // Get all radio buttons with the specified name
+    var radioButtons = document.getElementsByName(name);
+
+    // Loop through the radio buttons to clear the selection
+    for (var i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].checked = false;
+    }
+}
+
 
 function openPointModal(id) {
+    unlockOrLockArrows();
     // Show the modal using Bootstrap's modal method
     $('#pointsModal').modal('show');
 
@@ -21,10 +70,11 @@ function openPointModal(id) {
     document.getElementById('saveButton').onclick = function () {
         modalSave(id);
     };
-    //let element = document.getElementById(id);
-    //if (element) {
-    //    element.innerHTML = "clicked";
-    //}
+    
+    
+
+
+
 }
 function closeModal() {
     // Hide the modal using Bootstrap's modal method
@@ -97,36 +147,36 @@ function sumColumns(id) {
     }
     
 }
-document.addEventListener('DOMContentLoaded', function () {
-    var scoreRadios = document.querySelectorAll('.score-radio');
-    var closeButton = document.getElementById('closeButton');
-    var saveButton = document.getElementById('saveButton');
+//document.addEventListener('DOMContentLoaded', function () {
+//    var scoreRadios = document.querySelectorAll('.score-radio');
+//    var closeButton = document.getElementById('closeButton');
+//    var saveButton = document.getElementById('saveButton');
 
-    scoreRadios.forEach(function (radio) {
-        radio.addEventListener('change', function () {
-            handleRadioChange(radio);
-        });
-    });
+//    scoreRadios.forEach(function (radio) {
+//        radio.addEventListener('change', function () {
+//            handleRadioChange(radio);
+//        });
+//    });
 
-    closeButton.addEventListener('click', resetRadioButtons);
-    saveButton.addEventListener('click', resetRadioButtons);
+//    closeButton.addEventListener('click', resetRadioButtons);
+//    saveButton.addEventListener('click', resetRadioButtons);
 
-    function handleRadioChange(selectedRadio) {
-        if (selectedRadio.value !== '0') {
-            scoreRadios.forEach(function (radio) {
-                if (radio.value !== selectedRadio.value) {
-                    radio.disabled = true;
-                }
-            });
-        } else {
-            resetRadioButtons();
-        }
-    }
+//    function handleRadioChange(selectedRadio) {
+//        if (selectedRadio.value !== '0') {
+//            scoreRadios.forEach(function (radio) {
+//                if (radio.value !== selectedRadio.value) {
+//                    radio.disabled = true;
+//                }
+//            });
+//        } else {
+//            resetRadioButtons();
+//        }
+//    }
 
-    function resetRadioButtons() {
-        scoreRadios.forEach(function (radio) {
-            radio.disabled = false;
-        });
-    }
-});
+//    function resetRadioButtons() {
+//        scoreRadios.forEach(function (radio) {
+//            radio.disabled = false;
+//        });
+//    }
+//});
 

@@ -105,7 +105,7 @@
 */
 .disabled {
     pointer-events: none; /* Disable pointer events on the div and its contents */
-    opacity: 0.5; /* Optionally, reduce opacity to visually indicate it's disabled */
+    opacity: 0.2; /* Optionally, reduce opacity to visually indicate it's disabled */
 }
 
 .custom-radio {
