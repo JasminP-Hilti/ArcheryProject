@@ -97,8 +97,36 @@ function sumColumns(id) {
     }
     
 }
+document.addEventListener('DOMContentLoaded', function () {
+    var scoreRadios = document.querySelectorAll('.score-radio');
+    var closeButton = document.getElementById('closeButton');
+    var saveButton = document.getElementById('saveButton');
 
+    scoreRadios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            handleRadioChange(radio);
+        });
+    });
 
+    closeButton.addEventListener('click', resetRadioButtons);
+    saveButton.addEventListener('click', resetRadioButtons);
 
+    function handleRadioChange(selectedRadio) {
+        if (selectedRadio.value !== '0') {
+            scoreRadios.forEach(function (radio) {
+                if (radio.value !== selectedRadio.value) {
+                    radio.disabled = true;
+                }
+            });
+        } else {
+            resetRadioButtons();
+        }
+    }
 
+    function resetRadioButtons() {
+        scoreRadios.forEach(function (radio) {
+            radio.disabled = false;
+        });
+    }
+});
 

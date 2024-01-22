@@ -271,7 +271,7 @@ namespace ArcheryProject.Controllers
                     dbCtx.Players.Add(tmpDBPlayer);
                     dbCtx.SaveChanges();
                     PlayerModel player = GetPlayer(register.registerEmail);
-                    
+
                     if (player.Nickname == null)
                     {
                         ApiHelper.SetUser(player.Email, player);
@@ -288,10 +288,10 @@ namespace ArcheryProject.Controllers
                             HttpContext.Session.SetString("UsernameOrEmail", tmpDBPlayer.Nickname);
                         }
                     }
-                    
-                    
+
+
                 }
-                
+
                 return RedirectToAction("RegisterLanding");
             }
             TempData["OpenModalRegisterFailed"] = true;
@@ -321,19 +321,22 @@ namespace ArcheryProject.Controllers
             {
                 if (password != null)
                 {
-                    if (password.Any(c => char.IsDigit(c) == true)){
-                        if (password.Any(c => char.IsSymbol(c) == false)){
-                            if(password.Any(c => c == '@') == false) {
+                    if (password.Any(c => char.IsDigit(c) == true))
+                    {
+                        if (password.Any(c => char.IsSymbol(c) == false))
+                        {
+                            if (password.Any(c => c == '@') == false)
+                            {
                                 if (password.Length >= 6)
                                 {
                                     passwordIsValid = true;
                                 }
                             }
-                            
+
                         }
                     }
-           
-                    
+
+
                 }
             }
             //username is available / unique
@@ -400,22 +403,26 @@ namespace ArcheryProject.Controllers
             {
                 PlayerModel playerOne = GetPlayer(usernameOrEmail);
                 string[] tmparray = new string[match.PlayerListArr.Length + 1];
-
+                bool duplicateEntry = false;
                 for (var pos = 0; pos < match.PlayerListArr.Length; pos++)
                 {
                     tmparray[pos] = match.PlayerListArr[pos];
+                    if (tmparray[pos] == usernameOrEmail)
+                        duplicateEntry = true;
                 }
-                if(playerOne.Nickname != null)
+                if (!duplicateEntry)
                 {
-                    tmparray[match.PlayerListArr.Length] = playerOne.Nickname;
+                    if (playerOne.Nickname != null)
+                    {
+                        tmparray[match.PlayerListArr.Length] = playerOne.Nickname;
+                    }
+                    else
+                    {
+                        var name = playerOne.FirstName + playerOne.LastName[0];
+                        tmparray[match.PlayerListArr.Length] = name;
+                    }
                 }
-                else
-                {
-                    var name = playerOne.FirstName + playerOne.LastName[0];
-                    tmparray[match.PlayerListArr.Length] = name;
-                }
-                
-                
+
 
                 match.PlayerListArr = tmparray;
 
@@ -431,9 +438,9 @@ namespace ArcheryProject.Controllers
             }
             else if (password == "")
             {
-                string[] tmparray = new string[match.PlayerListArr.Length+1];
-               
-                for (var pos = 0; pos <match.PlayerListArr.Length; pos++)
+                string[] tmparray = new string[match.PlayerListArr.Length + 1];
+
+                for (var pos = 0; pos < match.PlayerListArr.Length; pos++)
                 {
                     tmparray[pos] = match.PlayerListArr[pos];
                 }
@@ -466,7 +473,7 @@ namespace ArcheryProject.Controllers
                 }
                 match.PlayerIsLoggedIn = tmpLog;
             }
-           
+
             return RedirectToAction("Play", "Player", match);
 
         }
@@ -505,12 +512,12 @@ namespace ArcheryProject.Controllers
             }
             //get admin info of player and return correct layout view
             PlayerModel playerOne = GetPlayer(match.PlayerListArr[0]);
-            if(playerOne.Admin == 1)
+            if (playerOne.Admin == 1)
             {
                 return View("AdminMatchSaved");
             }
             return View("PlayerMatchSaved");
-           
+
         }
 
     }
