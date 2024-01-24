@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = "Stats";
-    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    Layout = "~/Views/Shared/_Layout_Player.cshtml";
 }
 
 
@@ -51,15 +51,15 @@
     <h2 style="color:white"> performance curve</h2>
     <canvas id="lineChart"></canvas>
 
-    <br/>
+    <br />
     <div style="color:white; text-align:center; padding-bottom:1em; display: flex;
         justify-content: space-around; text-align: center;">
-    <p>
-        y = points         
-    </p>
-    <p>          
-        x = games
-    </p>
+        <p>
+            y = points
+        </p>
+        <p>
+            x = games
+        </p>
     </div>
 </div>
 
@@ -70,26 +70,26 @@
 <script>
 
     var averagePointsData = @Html.Raw(Json.Serialize(Model.Select(p => Math.Round(p.PointsTotal / (double)p.ParcoursCountAnimals, 2))));
-
+    
     var ctx = document.getElementById('lineChart').getContext('2d');
 
 
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: Array.from({ length: averagePointsData.length }, (_, i) => i + 1),
+            labels: Array.from({ length: averagePointsData.length }, (_, i) => i + 1), 
             datasets: [{
-                label: 'average points',
+                label: 'Average Points',
                 data: averagePointsData,
-                borderColor: 'rgba(158, 208, 255, 1)',
-                // backgroundColor: "rgba((158, 208, 255, 1)",
+                borderColor: 'rgba(158, 208, 255, 1)',  
+               // backgroundColor: "rgba((158, 208, 255, 1)",
                 borderWidth: 2,
-
+                
                 fill: false
             }]
         },
         options: {
-
+          
             responsive: true,
             maintainAspectRatio: true,
             scales: {
@@ -101,7 +101,7 @@
                         //suggestedMin: 1,
                         // suggestedMax: 2
                     },
-                    grid: {
+                    grid:{
                         color: 'rgba(255, 255, 255, 0.2)'
                     }
                 },
@@ -122,7 +122,7 @@
                         color: 'rgba(255, 255, 255, 1)'
                     }
                 }
-
+                    
             }
         }
     });

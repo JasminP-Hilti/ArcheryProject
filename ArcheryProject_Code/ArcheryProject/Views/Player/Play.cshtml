@@ -1,7 +1,7 @@
 ﻿@model EventModel
 @{
     ViewData["Title"] = "Match";
-    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    Layout = "~/Views/Shared/_Layout_Player.cshtml";
 }
 
 <script>
@@ -16,8 +16,8 @@
 
 <div class="container-fluid pt-3">
     <div class="container bg-darkgreen pt-3 pb-3">
-        <div id="setupMatch">
-
+       <div id="setupMatch">
+        
             <div class=" p-4" style="color:white; border: dashed 1px seashell; border-radius: 15px;">
                 <div style="text-align: center" class="pb-3">
                     <i>First choose your parcour option then add other players! </i>
@@ -34,19 +34,20 @@
                             <button class="mybtn btn-active" type="submit">Update</button>
                         </div>
                         <div class="col">
+                           
                         </div>
-
+                        
                         <div class="col-2">
                             <!-- Button trigger modal -->
                             <button id="matchAddPlayer" type="button" class="mybtn btn-active" data-bs-toggle="modal" data-bs-target="#addPlayerModal">
                                 Add Player
                             </button>
                         </div>
-
+                       
                     </div>
-
+                    
                 </form>
-
+                
             </div>
             <div class="col-12 pt-4 pb-4" style="text-align: center;">
                 <button class="mybtn btn-active" style="background: seashell; color:black;" onclick="startMatch()" type="submit">Start Match</button> @*should later on allow to use the table and hide all the input form*@
@@ -117,60 +118,59 @@
 
             </div>
 
-
+           
 
         </form>
-
-
-    </div>
-
-    <!-- Modal -->
-    <div>
-        <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form asp-controller="Account" asp-action="AddPlayerToEvent" method="post">
-                        @foreach (var tmpPlayer in Model.PlayerList)
-                        {
-                            <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
-                        }
-                        @foreach (var tmpLog in Model.PlayerIsLoggedIn)
-                        {
-                            <input type="hidden" name="PlayerIsLoggedIn[]" value="@tmpLog" />
-                        }
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-outline mb-4">
-                                <label class="form-label" asp-for="ModalLoginName">Username</label>
-                                <input type="text" id="ModalLoginName" asp-for="ModalLoginName" class="form-control" />
-                            </div>
-
-                            <!-- Password input -->
-                            <div class="form-outline mb-4">
-                                <label class="form-label" asp-for="ModalLoginPassword">Password</label>
-                                <input type="password" id="ModalLoginPassword" asp-for="ModalLoginPassword" class="form-control" />
-                            </div>
-                            <div if="modalFeedback" class="">
-                                <i> Note: If password is left empty, user will be added without connection to account.</i>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="modalSaveAddPlayer" type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+        
 
 </div>
 
+<!-- Modal -->
+            <div>
+                    <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                        <form asp-controller="Account" asp-action="AddPlayerToEvent" method="post">
+                             @foreach(var tmpPlayer in Model.PlayerList)
+                            {
+                                <input type="hidden" name="PlayerListArr[]" value="@tmpPlayer" />
+                            }
+                             @foreach (var tmpLog in Model.PlayerIsLoggedIn)
+                            {
+                                <input type="hidden" name="PlayerIsLoggedIn[]" value="@tmpLog" />
+                            }
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-outline mb-4">
+                                    <label class="form-label" asp-for="ModalLoginName">Username</label>
+                                    <input type="text" id="ModalLoginName" asp-for="ModalLoginName" class ="form-control" />
+                                        </div>
+
+                                        <!-- Password input -->
+                                        <div class="form-outline mb-4">
+                                    <label class="form-label" asp-for="ModalLoginPassword">Password</label>
+                                    <input type="password" id="ModalLoginPassword" asp-for="ModalLoginPassword" class="form-control" />
+                                        </div>
+                                        <div if="modalFeedback" class="">
+                                            <i> Note: If password is left empty, user will be added without connection to account.</i>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button id="modalSaveAddPlayer" type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+          </div>
 
 
 <!-- Modal For Point Input-->
@@ -266,3 +266,4 @@
         </div>
     </div>
 </div>
+

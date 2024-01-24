@@ -7,6 +7,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("loginButton").addEventListener("click", switchForm);
     document.getElementById("registerButton").addEventListener("click", switchForm);
+
+  
 });
 
 
@@ -17,11 +19,11 @@ function switchForm(event) {
     if (clickedButton.classList.contains("btn-inactive") == true) {
         let activeButton = clickedButton.id === 'loginButton' ? document.getElementById("registerButton") : document.getElementById("loginButton");
 
-        activeButton.classList.remove("btn-primary");
+        activeButton.classList.remove("btn-active");
         activeButton.classList.add("btn-inactive");
 
         clickedButton.classList.remove("btn-inactive");
-        clickedButton.classList.add("btn-primary");
+        clickedButton.classList.add("btn-active");
 
         const showFormId = clickedButton.id === 'loginButton' ? 'loginForm' : 'registerForm';
         const hideFormId = clickedButton.id === 'loginButton' ? 'registerForm' : 'loginForm';

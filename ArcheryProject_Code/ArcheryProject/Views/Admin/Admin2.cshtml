@@ -1,0 +1,67 @@
+﻿<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+@model List<PlayerModel>
+
+@{
+    ViewData["Title"] = "Player Manager";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+<div class="container" style="margin-bottom: 3rem;">
+    <h1 style="color:white">@ViewData["Title"]</h1>
+    <table id="tablePlayers" class="col-12" style="border-collapse: collapse; background-color: #f0f0f0; border-radius: 15px;">
+    <thead>
+            <tr style="border-bottom: 1px solid black; text-align:center; font-size: 1.2rem;">
+                <th >ID</th>
+                <th >First Name</th>
+                <th >Last Name</th>
+                <th >Nickname</th>
+                <th >Admin</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tmpPar in Model)
+        {
+            <tr>
+                    <td style="text-align:center;"><span data-field="Id">@tmpPar.Id</span></td>
+                    <td style="padding-left:2rem;"><span class="editable" data-field="FirstName">@tmpPar.FirstName</span></td>
+                    <td style="padding-left:2rem;"><span class="editable" data-field="LastName">@tmpPar.LastName</span></td>
+                    <td style="padding-left:2rem;"><span class="editable" data-field="Nickname">@tmpPar.Nickname</span></td>
+                    <td style="text-align:center;"><span class="editable" data-field="Admin">@tmpPar.Admin</span></td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+<br />
+<div class="container bg-darkgreen" style="color:white; padding: 1rem;">
+    <h2>Edit existing player: </h2>
+    <form asp-controller="Admin" asp-action="EditPlayer" method="post">
+        <!-- Form elements here -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="Id">Id</label>
+            <input required type="number" id="Id" name="Id" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="FirstName">First Name</label>
+            <input required type="text" id="FirstName" name="FirstName" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="LastName">Last Name</label>
+            <input required type="text" id="LastName" name="LastName" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="Nickname">Nickname</label>
+            <input required type="text" id="Nickname" name="Nickname" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="Admin">Admin</label>
+            <input required type="number" id="Admin" name="Admin" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="LoginsId">Logins ID</label>
+            <input required type="number" id="LoginsId" name="LoginsId" class="form-control" />
+        </div>
+        <!-- Include other fields if necessary -->
+        <button type="submit" class="mybtn btn-active">Submit</button>
+    </form>
+</div>

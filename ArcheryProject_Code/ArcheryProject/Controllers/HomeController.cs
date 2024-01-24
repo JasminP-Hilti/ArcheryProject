@@ -1,4 +1,5 @@
 ﻿using ArcheryProject.Models;
+using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,7 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Index()
         {
-            return View();
+           return View();
         }
 
         public IActionResult Login()
@@ -28,5 +29,6 @@ namespace ArcheryProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

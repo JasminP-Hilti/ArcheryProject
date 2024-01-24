@@ -1,32 +1,28 @@
 ﻿using ArcheryProject.Models;
 using artaimusDBlib;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Esf;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Diagnostics;
-
 
 namespace ArcheryProject.Controllers
 {
-    public class AdminController : Controller
+    public class PlayerController : Controller
     {
-        private readonly ILogger<AdminController> _logger;
-
         private ArtaimusContext dbCtx;
+        private readonly ILogger<PlayerController> _logger;
         public List<PlayerModel> tmpPlayers = new List<PlayerModel>();
 
-        public AdminController(ILogger<AdminController> logger, ArtaimusContext dbCtx)
+
+
+        public PlayerController(ILogger<PlayerController> logger, ArtaimusContext dbCtx)
         {
             _logger = logger;
 
             this.dbCtx = dbCtx;
         }
 
+
         public IActionResult Index()
         {
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
-
             return View(player);
         }
 
@@ -91,7 +87,7 @@ namespace ArcheryProject.Controllers
         {
             match.Parcours = dbCtx.Parcours.Where(x => x.Name == match.SelectedParcours).FirstOrDefault();
             match.ParcourId = match.Parcours.Id;
-            return RedirectToAction("Play", "Admin", match);
+            return RedirectToAction("Play", "Player", match);
         }
 
         public IActionResult Logout()
@@ -105,7 +101,7 @@ namespace ArcheryProject.Controllers
 
                 HttpContext.Session.Clear();
             }
-            
+
             return RedirectToAction("index", "Home");
 
         }
@@ -113,7 +109,6 @@ namespace ArcheryProject.Controllers
 
         public IActionResult Stats()
         {
-
             PlayerModel player = ApiHelper.GetUser(HttpContext.Session.GetString("UsernameOrEmail"));
 
             List<StatisticModel> tmpModels = new List<StatisticModel>();
@@ -155,111 +150,8 @@ namespace ArcheryProject.Controllers
             return View(tmpModels);
 
 
-
         }
 
-
-        public IActionResult Admin()
-        {
-            List<ParcourModel> tmpModels = new List<ParcourModel>();
-
-            foreach (var tmpPar in dbCtx.Parcours)
-            {
-                tmpModels.Add(new ParcourModel
-                {
-                    Id = tmpPar.Id,
-                    Name = tmpPar.Name,
-                    Location = tmpPar.Location,
-                    CountAnimals = tmpPar.CountAnimals
-                });
-            }
-
-            return View(tmpModels);
-        }
-        public IActionResult Admin2()
-        {
-            List<PlayerModel> tmpModels = new List<PlayerModel>();
-
-            foreach (var tmpPar in dbCtx.Players)
-            {
-                tmpModels.Add(new PlayerModel
-                {
-                    Id = tmpPar.Id,
-                    FirstName = tmpPar.FirstName,
-                    LastName = tmpPar.LastName,
-                    Nickname = tmpPar.Nickname,
-                    Admin = tmpPar.Admin,
-                });
-            }
-
-            return View(tmpModels);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-        
-        [HttpPost]
-        public async Task<IActionResult> AddParcour(Parcour parcour)
-        {
-            if (ModelState.IsValid)
-            {
-                // Logik zum Speichern der Daten in der Datenbank
-                dbCtx.Parcours.Add(parcour);
-                await dbCtx.SaveChangesAsync();
-            }
-            return RedirectToAction("Admin");
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditParcour(Parcour parcour)
-        {
-            if (ModelState.IsValid)
-            {
-                // Logik zum Speichern der Daten in der Datenbank
-                dbCtx.Parcours.Update(parcour);
-                await dbCtx.SaveChangesAsync();
-            }
-            return RedirectToAction("Admin");
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditPlayer(Player player)
-        {
-
-                // Logik zum Speichern der Daten in der Datenbank
-                dbCtx.Players.Update(player);
-                await dbCtx.SaveChangesAsync();
-            
-            return RedirectToAction("Admin2");
-        }
-        [HttpPost]
-        public IActionResult AddPlayerToPlay(PlayerModel player)
-        {
-            if (ModelState.IsValid)
-            {
-                tmpPlayers.Add(player);
-            }
-            return View(tmpPlayers);
-        }
-
-        [HttpPost]
-        public IActionResult PrintPlayerList(string matchType)
-        {
-            if(matchType == "3 Pfeil Wertung")            
-            {
-                foreach (var tmpPlayer in tmpPlayers)
-                {
-                    tmpPlayers.Add(new PlayerModel
-                    {
-                        Nickname = tmpPlayer.Nickname
-                    });
-                }
-            }else
-            {     
-
-            }
-                return View(matchType);
-        }
     }
+
 }
